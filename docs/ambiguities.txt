@@ -1,0 +1,19 @@
+Paragraph: 7
+Problem: The number -345_11/3 contains an underscore and it is not explained what that means.
+Our Solution: In Java, underscore in the middle of a number (not near a decimal point) is used for readability only. Our compilers will implements the same behaviour.
+
+Paragraph: 11
+Problem: It is not clear if a[b,b] is a valid expression.
+Our Solution: We will consider it a valid expresion and a[b,b] will be identical to a[b] in our compiler.
+
+Table: 2
+Problem: It is not clear if > and >= are valid.
+Our Solution: Based on mostly all other programming languages, we will consider that they have been omitted by mistake and we will consider them valid.
+
+Table: 4
+Problem: It is not clear what the pool instruction does.
+Our Solution: We will make use of pool as an instruction that marks the end of loop. This seems to be what it is used for in example from Listing 4 and as loop does not have {}s, it would make sense it needs some kind of instruction to mark its end.
+
+
+
+
