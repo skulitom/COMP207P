@@ -9,7 +9,7 @@ parser code {:
     public void syntax_error(Symbol current_token) {
         report_error(
             "Syntax error at line " + (current_token.left+1) + ", column "
-    + current_token.right, null
+    + current_token.right + "  at  : " + current_token.toString(), null
         );
     }
 
@@ -75,7 +75,7 @@ top_level ::= statements:ss {:
             ;
 
 type_level ::= statements:ss {:
-                if(debug()) System.out.println((Node)ss);;
+                if(debug()) System.out.println((Node)ss);
 :};
 
 statements ::= statements:ss statement:s {:

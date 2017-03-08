@@ -155,7 +155,7 @@ public class Parser extends java_cup.runtime.lr_parser {
     public void syntax_error(Symbol current_token) {
         report_error(
             "Syntax error at line " + (current_token.left+1) + ", column "
-    + current_token.right, null
+    + current_token.right + "  at  : " + current_token.toString(), null
         );
     }
 
@@ -260,7 +260,7 @@ class CUP$Parser$actions {
 		int ssright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object ss = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-                if(debug()) System.out.println((Node)ss);;
+                if(debug()) System.out.println((Node)ss);
 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("type_level",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
