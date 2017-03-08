@@ -122,6 +122,7 @@ top_level  ::= top_level PLUS top_level
 //               :}
 //             ;
 //
+//
 //integral_type ::= INT {: RESULT = new Node(n); :}
 //;
 //
