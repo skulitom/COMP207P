@@ -59,7 +59,7 @@ terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT
 terminal LPAREN, RPAREN;
 terminal BADCHAR;
 
-nonterminal statements, statement, top_level;
+nonterminal statements, statement, top_level, type_level;
 nonterminal top_bind, full_exp, simple_exp, operator, integral_type, numeric_type, floating_point_type, type_bind, primitive_type;
 
 precedence left PLUS, MINUS;
@@ -71,6 +71,10 @@ top_level ::= statements:ss {:
               :}
             ;
 
+type_level ::= statements:ss {:
+                if(debug()) System.out.println((Node)ss);;
+:};
+
 statements ::= statements:ss statement:s {:
                   Node n = (Node)ss;
                   n.addChild((Node)s);
@@ -81,7 +85,10 @@ statements ::= statements:ss statement:s {:
                :}
              ;
 
-statement ::= top_bind:s {:
+statement ::= type_bind:s {:
+                RESULT = (Node)s;
+              :}
+            | top_bind:s {:
                 RESULT = (Node)s;
               :}
             | full_exp:s {:

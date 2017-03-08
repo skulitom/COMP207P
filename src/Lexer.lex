@@ -74,6 +74,7 @@ Bool = "bool"
 Rat = "rat"
 Float = "float"
 Dictionary = "dict"
+
 Top = {Char} | {Int} | {Bool} | {Rat} | {Float}
 
 Digit = [0-9]
