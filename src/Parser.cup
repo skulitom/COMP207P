@@ -60,7 +60,7 @@ terminal LPAREN, RPAREN;
 terminal BADCHAR;
 
 nonterminal statements, statement, top_level;
-nonterminal let_bind, full_exp, simple_exp, operator;
+nonterminal top_bind, full_exp, simple_exp, operator, integral_type, numeric_type, floating_point_type, type_bind, primitive_type;
 
 precedence left PLUS, MINUS;
 precedence left DIV, MULT;
@@ -81,7 +81,7 @@ statements ::= statements:ss statement:s {:
                :}
              ;
 
-statement ::= let_bind:s {:
+statement ::= top_bind:s {:
                 RESULT = (Node)s;
               :}
             | full_exp:s {:
@@ -108,8 +108,18 @@ simple_exp ::= INTEGER:i    {: RESULT = new Node(i); :}
                :}
              ;
 
-integral_type ::= INT {: RESULT = new Node(n); :}
+primitive_type ::= numeric_type
+               |   BOOL:n {:RESULT = new Node(n);:};
+
+numeric_type ::= integral_type
+               | floating_point_type;
+
+integral_type ::= INT:n {: RESULT = new Node(n); :}
+               |  CHAR:n {: RESULT = new Node(n); :}
 ;
+
+floating_point_type ::= FLOAT:n {: RESULT = new Node(n);:}
+               |        RAT:n {: RESULT = new Node(n); :};
 
 operator ::= PLUS  {: RESULT = new Node("+"); :}
            | MINUS {: RESULT = new Node("-"); :}
@@ -127,6 +137,14 @@ operator ::= PLUS  {: RESULT = new Node("+"); :}
 
 top_bind ::= TOP IDENTIFIER:i EQUAL full_exp:e {:
                  Node n = new Node("TOP");
+                 n.addChild(new Node(i));
+                 n.addChild((Node)e);
+                 RESULT = n;
+
+               :};
+
+type_bind ::= primitive_type:t IDENTIFIER:i EQUAL full_exp:e {:
+                 Node n = new Node(t);
                  n.addChild(new Node(i));
                  n.addChild((Node)e);
                  RESULT = n;
