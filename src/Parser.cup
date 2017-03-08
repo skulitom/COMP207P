@@ -66,69 +66,83 @@ precedence left PLUS, MINUS;
 precedence left DIV, MULT;
 precedence right POW;
 
-top_level ::= statements:ss {:
-                if(debug()) System.out.println((Node)ss);
-              :}
+statements ::= statements statement | statement;
+statement  ::= top_level SEMICOL;
+top_level  ::= top_level PLUS top_level
+            | top_level MINUS top_level
+            | top_level MULT top_level
+            | top_level DIV top_level
+            | LPAREN top_level RPAREN
+            | INTEGER
             ;
 
-statements ::= statements:ss statement:s {:
-                  Node n = (Node)ss;
-                  n.addChild((Node)s);
-                  RESULT = n;
-               :}
-             | /* empty */ {:
-                  RESULT = new Node("Statements");
-               :}
-             ;
 
-statement ::= let_bind:s {:
-                RESULT = (Node)s;
-              :}
-            | full_exp:s {:
-                RESULT = (Node)s;
-              :}
-            ;
 
-full_exp ::= simple_exp:e SEMICOL {: RESULT = (Node)e; :};
 
-simple_exp ::= INTEGER:i    {: RESULT = new Node(i); :}
-             | IDENTIFIER:i {: RESULT = new Node(i); :}
-             | simple_exp:e1 operator:o simple_exp:e2 {:
-                  Node n = (Node)o;
-                  n.addChild((Node)e1);
-                  n.addChild((Node)e2);
-                  RESULT = n;
-               :}
-             | LPAREN simple_exp:e RPAREN {:
-                 Node n = new Node("parens");
-                 n.addChild(new Node("("));
-                 n.addChild((Node)e);
-                 n.addChild(new Node(")"));
-                 RESULT = (Node)e;
-               :}
-             ;
 
-integral_type ::= INT {: RESULT = new Node(n); :}
-;
-
-operator ::= PLUS  {: RESULT = new Node("+"); :}
-           | MINUS {: RESULT = new Node("-"); :}
-           | MULT  {: RESULT = new Node("*"); :}
-           | DIV   {: RESULT = new Node("/"); :}
-           | POW   {: RESULT = new Node("^"); :}
-           ;
-
-//let_bind ::= LET IDENTIFIER:i EQUAL full_exp:e {:
-//               Node n = new Node("INT");
-//               n.addChild(new Node(i));
-//               n.addChild((Node)e);
-//               RESULT = n;
-//             :};
-
-top_bind ::= TOP IDENTIFIER:i EQUAL full_exp:e {:
-                 Node n = new Node("TOP");
-                 n.addChild(new Node(i));
-                 n.addChild((Node)e);
-                 RESULT = n;
-
-               :};
+//top_level ::= statements:ss {:
+//                if(debug()) System.out.println((Node)ss);
+//              :}
+//            ;
+//
+//statements ::= statements:ss statement:s {:
+//                  Node n = (Node)ss;
+//                  n.addChild((Node)s);
+//                  RESULT = n;
+//               :}
+//             | /* empty */ {:
+//                  RESULT = new Node("Statements");
+//               :}
+//             ;
+//
+//statement ::= let_bind:s {:
+//                RESULT = (Node)s;
+//              :}
+//            | full_exp:s {:
+//                RESULT = (Node)s;
+//              :}
+//            ;
+//
+//full_exp ::= simple_exp:e SEMICOL {: RESULT = (Node)e; :};
+//
+//simple_exp ::= INTEGER:i    {: RESULT = new Node(i); :}
+//             | IDENTIFIER:i {: RESULT = new Node(i); :}
+//             | simple_exp:e1 operator:o simple_exp:e2 {:
+//                  Node n = (Node)o;
+//                  n.addChild((Node)e1);
+//                  n.addChild((Node)e2);
+//                  RESULT = n;
+//               :}
+//             | LPAREN simple_exp:e RPAREN {:
+//                 Node n = new Node("parens");
+//                 n.addChild(new Node("("));
+//                 n.addChild((Node)e);
+//                 n.addChild(new Node(")"));
+//                 RESULT = (Node)e;
+//               :}
+//             ;
+//
+//integral_type ::= INT {: RESULT = new Node(n); :}
+//;
+//
+//operator ::= PLUS  {: RESULT = new Node("+"); :}
+//           | MINUS {: RESULT = new Node("-"); :}
+//           | MULT  {: RESULT = new Node("*"); :}
+//           | DIV   {: RESULT = new Node("/"); :}
+//           | POW   {: RESULT = new Node("^"); :}
+//           ;
+//
+////let_bind ::= LET IDENTIFIER:i EQUAL full_exp:e {:
+////               Node n = new Node("INT");
+////               n.addChild(new Node(i));
+////               n.addChild((Node)e);
+////               RESULT = n;
+////             :};
+//
+//top_bind ::= TOP IDENTIFIER:i EQUAL full_exp:e {:
+//                 Node n = new Node("TOP");
+//                 n.addChild(new Node(i));
+//                 n.addChild((Node)e);
+//                 RESULT = n;
+//
+//               :};
