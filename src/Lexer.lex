@@ -65,16 +65,8 @@ import java_cup.runtime.*;
 %}
 
 Whitespace = \r|\n|\r\n|" "|"\t"
-Comment = ("/#".*"#/")
-
+Comment = "/#" [^#] ~"#/" | "/#" "#"+ "/"
 Letter = [a-zA-Z]
-Char = "char"
-Int = "int"
-Bool = "bool"
-Rat = "rat"
-Float = "float"
-Dictionary = "dict"
-Top = {Char} | {Int} | {Bool} | {Rat} | {Float}
 
 Digit = [0-9]
 IdChar = {Letter} | {Digit} | "_"
@@ -83,24 +75,30 @@ Integer = [-+]?(0|[1-9]{Digit}*)
 
 %%
 
+<YYINITIAL>   "main"  { return symbol(sym.MAIN_FUNC);    }
+<YYINITIAL>   "fdef"  { return symbol(sym.METHOD_DECLARATOR);    }
+<YYINITIAL>   "int"  { return symbol(sym.INT);    }
+<YYINITIAL>   "bool"  { return symbol(sym.BOOL);    }
+<YYINITIAL>   "rat"  { return symbol(sym.RAT);    }
+<YYINITIAL>   "float"  { return symbol(sym.FLOAT);    }
+<YYINITIAL>   "char"  { return symbol(sym.CHAR);    }
+<YYINITIAL>   "top"  { return symbol(sym.TOP);    }
+<YYINITIAL>   "dict"  { return symbol(sym.DICT);    }
+<YYINITIAL>   "return"  { return symbol(sym.RETURN);    }
+
+
 <YYINITIAL> {
 
-  {Integer}     { return symbol(sym.INTEGER,
+  {Integer}     { return symbol(sym.INTEGER_LITERAL,
                                 Integer.parseInt(yytext())); }
   {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
-  {Int}         { return symbol(sym.INT);        }
-  {Bool}        { return symbol(sym.BOOL);       }
-  {Rat}         { return symbol(sym.RAT);        }
-  {Float}       { return symbol(sym.FLOAT);      }
-  {Char}        { return symbol(sym.CHAR);       }
-  {Top}         { return symbol(sym.TOP);        }
-  {Dictionary}  { return symbol(sym.DICT);       }
 
   {Whitespace}  { /* do nothing */               }
   {Comment}     { /* do nothing */               }
   "#".*         { /* do nothing */               }
   ":="          { return symbol(sym.EQUAL);      }
   ";"           { return symbol(sym.SEMICOL);    }
+  ":"           { return symbol(sym.COL);    }
   "+"           { return symbol(sym.PLUS);       }
   "-"           { return symbol(sym.MINUS);      }
   "^"           { return symbol(sym.POW);        }
@@ -109,6 +107,9 @@ Integer = [-+]?(0|[1-9]{Digit}*)
   "("           { return symbol(sym.LPAREN);     }
   ")"           { return symbol(sym.RPAREN);     }
 
+   ","          { return symbol(sym.COMMA);      }
+   "{"         { return symbol(sym.LPAREN_CURLY);     }
+   "}"         { return symbol(sym.RPAREN_CURLY);     }
 }
 
 [^]  {

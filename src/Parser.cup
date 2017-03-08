@@ -55,26 +55,62 @@ parser code {:
 :};
 
 // Do something with ILLEGAL_CHARARCTER or drop it.
-terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP, RAT, CHAR, POW, DICT;
+terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP, RAT, CHAR, POW, DICT, COMMA, COL, RETURN;
 terminal LPAREN, RPAREN;
+terminal LPAREN_CURLY, RPAREN_CURLY;
 terminal BADCHAR;
+terminal INTEGER_LITERAL;
+terminal MAIN_FUNC;
+terminal METHOD_DECLARATOR;
 
 nonterminal statements, statement, top_level;
-nonterminal let_bind, full_exp, simple_exp, operator;
+nonterminal let_bind, full_exp, simple_exp, operator_binary;
+nonterminal method_declaration, method_header, method_body, methods;
+nonterminal parameter_list, parameter;
+nonterminal primitive_type, floating_point_type, numeric_type, integer_type, type;
 
 precedence left PLUS, MINUS;
 precedence left DIV, MULT;
 precedence right POW;
 
+
+methods ::= methods method_declaration | method_declaration;
+method_declaration ::= method_header LPAREN_CURLY method_body RPAREN_CURLY SEMICOL
+                        | method_header LPAREN_CURLY method_body RETURN IDENTIFIER SEMICOL RPAREN_CURLY COL type SEMICOL;
+
+method_header ::= MAIN_FUNC | METHOD_DECLARATOR IDENTIFIER LPAREN parameter_list RPAREN;
+method_body ::= statements | ;
+
+
+parameter_list ::= parameter_list COMMA parameter | parameter;
+parameter ::= IDENTIFIER COL primitive_type | ;
+
+
 statements ::= statements statement | statement;
-statement  ::= simple_exp SEMICOL;
-simple_exp  ::= simple_exp PLUS simple_exp
-            | simple_exp MINUS simple_exp
-            | simple_exp MULT simple_exp
-            | simple_exp DIV simple_exp
+statement  ::= full_exp SEMICOL;
+full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
+                | IDENTIFIER COL type;
+simple_exp  ::= simple_exp operator_binary simple_exp
             | LPAREN simple_exp RPAREN
-            | INTEGER
+            | INTEGER_LITERAL
             ;
+
+operator_binary ::= PLUS
+            | MINUS
+            | MULT
+            | DIV
+            | POW
+            ;
+
+
+
+type ::= primitive_type;
+primitive_type ::= numeric_type | BOOL;
+numeric_type ::= integer_type | floating_point_type;
+integer_type ::= INT | CHAR;
+floating_point_type ::= FLOAT | RAT;
+
+
 
 
 

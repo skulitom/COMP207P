@@ -1,3 +1,9 @@
-3 + 4;
+fdef name (x : int, y : bool) {};
 
-3 - 4;
+fdef name (x : int, y : bool) {return x;} : int;
+
+main
+{
+y : int;
+x : int := (3 ^ 4) + 56;
+};
