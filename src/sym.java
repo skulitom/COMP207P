@@ -6,15 +6,20 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
+  public static final int FDEF = 20;
+  public static final int TDEF = 19;
   public static final int PLUS = 6;
-  public static final int BADCHAR = 20;
-  public static final int RPAREN = 19;
+  public static final int BADCHAR = 27;
+  public static final int RPAREN = 24;
   public static final int INT = 10;
   public static final int EQUAL = 4;
   public static final int CHAR = 15;
+  public static final int RETURN = 22;
   public static final int IDENTIFIER = 3;
   public static final int POW = 16;
-  public static final int LPAREN = 18;
+  public static final int LPAREN = 23;
+  public static final int RCPAREN = 26;
+  public static final int COMMA = 21;
   public static final int DICT = 17;
   public static final int FLOAT = 11;
   public static final int EOF = 0;
@@ -25,8 +30,10 @@ public class sym {
   public static final int RAT = 14;
   public static final int MINUS = 7;
   public static final int error = 1;
+  public static final int TYPEDEC = 18;
   public static final int BOOL = 12;
   public static final int INTEGER = 2;
+  public static final int LCPAREN = 25;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -46,8 +53,15 @@ public class sym {
   "CHAR",
   "POW",
   "DICT",
+  "TYPEDEC",
+  "TDEF",
+  "FDEF",
+  "COMMA",
+  "RETURN",
   "LPAREN",
   "RPAREN",
+  "LCPAREN",
+  "RCPAREN",
   "BADCHAR"
   };
 }

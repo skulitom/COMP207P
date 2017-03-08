@@ -74,6 +74,9 @@ Bool = "bool"
 Rat = "rat"
 Float = "float"
 Dictionary = "dict"
+Return = "return"
+Tdef = "tdef"
+Fdef = "fdef"
 
 Top = {Char} | {Int} | {Bool} | {Rat} | {Float}
 
@@ -96,6 +99,9 @@ Integer = [-+]?(0|[1-9]{Digit}*)
   {Char}        { return symbol(sym.CHAR);       }
   {Top}         { return symbol(sym.TOP);        }
   {Dictionary}  { return symbol(sym.DICT);       }
+  {Return}      { return symbol(sym.RETURN);     }
+  {Tdef}        { return symbol(sym.TDEF);       }
+  {Fdef}        { return symbol(sym.FDEF);       }
 
   {Whitespace}  { /* do nothing */               }
   {Comment}     { /* do nothing */               }
@@ -109,6 +115,10 @@ Integer = [-+]?(0|[1-9]{Digit}*)
   "/"           { return symbol(sym.DIV);        }
   "("           { return symbol(sym.LPAREN);     }
   ")"           { return symbol(sym.RPAREN);     }
+  "{"           { return symbol(sym.LCPAREN);    }
+  "}"           { return symbol(sym.RCPAREN);    }
+  ":"           { return symbol(sym.TYPEDEC);    }
+  ","           { return symbol(sym.COMMA);      }
 
 }
 

@@ -55,12 +55,15 @@ parser code {:
 :};
 
 // Do something with ILLEGAL_CHARARCTER or drop it.
-terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP, RAT, CHAR, POW, DICT;
-terminal LPAREN, RPAREN;
+terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT,
+ DIV, INT, FLOAT, BOOL, TOP, RAT, CHAR, POW, DICT, TYPEDEC, TDEF, FDEF, COMMA;
+terminal RETURN;
+terminal LPAREN, RPAREN, LCPAREN, RCPAREN;
 terminal BADCHAR;
 
 nonterminal statements, statement, top_level, type_level;
-nonterminal top_bind, full_exp, simple_exp, operator, integral_type, numeric_type, floating_point_type, type_bind, primitive_type;
+nonterminal top_bind, full_exp, simple_exp, operator, integral_type, type_declarations, type_dec,
+numeric_type, floating_point_type, type_bind, primitive_type, return_bind, method, methods;
 
 precedence left PLUS, MINUS;
 precedence left DIV, MULT;
@@ -85,10 +88,37 @@ statements ::= statements:ss statement:s {:
                :}
              ;
 
+methods ::= methods:mm method:m {:
+                Node n = (Node)mm;
+                n.addChild((Node)m);
+                RESULT = n;
+                :}
+                {:
+                    RESULT = new Node("Methods");
+                :};
+
+method ::= FDEF IDENTIFIER:i LPAREN type_declarations:c RPAREN LCPAREN statements:s RCPAREN {:
+                    Node n = (Node)i;
+                    n.addChild((Node)c);
+                    n.addChild((Node)s);
+                    RESULT =n;
+                :}
+                | FDEF IDENTIFIER:i LPAREN type_declarations:c RPAREN LCPAREN statements:s return_bind:p RCPAREN{:
+                    Node n = (Node)i;
+                    n.addChild((Node)c);
+                    n.addChild((Node)s);
+                    n.addChild((Node)p);
+                    RESULT = n;
+                :};
+
+
+
+return_bind ::= RETURN IDENTIFIER:i SEMICOL{:
+                    Node n = (Node)i;
+                    RESULT = n;
+                :};
+
 statement ::= type_bind:s {:
-                RESULT = (Node)s;
-              :}
-            | top_bind:s {:
                 RESULT = (Node)s;
               :}
             | full_exp:s {:
@@ -117,6 +147,7 @@ simple_exp ::= INTEGER:i    {: RESULT = new Node(i); :}
 
 primitive_type ::= numeric_type
                |   BOOL:n {:RESULT = new Node(n);:};
+
 
 numeric_type ::= integral_type
                | floating_point_type;
@@ -150,10 +181,32 @@ top_bind ::= TOP IDENTIFIER:i EQUAL full_exp:e {:
 
                :};
 
-type_bind ::= primitive_type:t IDENTIFIER:i EQUAL full_exp:e {:
+type_bind ::= type_dec:t EQUAL full_exp:e {:
                  Node n = new Node(t);
-                 n.addChild(new Node(i));
                  n.addChild((Node)e);
                  RESULT = n;
 
+               :}
+               | type_dec:t SEMICOL{:
+                 Node n = new Node(t);
+                 RESULT = n;
                :};
+
+type_dec ::= IDENTIFIER:i TYPEDEC:c primitive_type:t{:
+                 Node n = new Node(i);
+                 n.addChild(new Node(c));
+                 n.addChild(new Node(t));
+                 RESULT = n;
+               :}
+               |{:
+                 RESULT = new Node("empty");
+               :};
+
+type_declarations ::= type_declarations:tt COMMA type_dec:t{:
+                 Node n = new Node(tt);
+                 n.addChild(new Node(t));
+                 RESULT = n;
+               :}
+               |
+               {:RESULT = new Node("type_declarations");:};
+
