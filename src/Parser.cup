@@ -67,13 +67,12 @@ precedence left DIV, MULT;
 precedence right POW;
 
 statements ::= statements statement | statement;
-statement  ::= top_level SEMICOL
-                | BADCHAR;
-top_level  ::= top_level PLUS top_level
-            | top_level MINUS top_level
-            | top_level MULT top_level
-            | top_level DIV top_level
-            | LPAREN top_level RPAREN
+statement  ::= simple_exp SEMICOL;
+simple_exp  ::= simple_exp PLUS simple_exp
+            | simple_exp MINUS simple_exp
+            | simple_exp MULT simple_exp
+            | simple_exp DIV simple_exp
+            | LPAREN simple_exp RPAREN
             | INTEGER
             ;
 
