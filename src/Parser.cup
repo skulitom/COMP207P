@@ -55,7 +55,7 @@ parser code {:
 :};
 
 // Do something with ILLEGAL_CHARARCTER or drop it.
-terminal INTEGER, IDENTIFIER, LET, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV;
+terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP, RAT, CHAR, POW, DICT;
 terminal LPAREN, RPAREN;
 terminal BADCHAR;
 
@@ -64,6 +64,7 @@ nonterminal let_bind, full_exp, simple_exp, operator;
 
 precedence left PLUS, MINUS;
 precedence left DIV, MULT;
+precedence right POW;
 
 top_level ::= statements:ss {:
                 if(debug()) System.out.println((Node)ss);
@@ -107,15 +108,27 @@ simple_exp ::= INTEGER:i    {: RESULT = new Node(i); :}
                :}
              ;
 
+integral_type ::= INT {: RESULT = new Node(n); :}
+;
+
 operator ::= PLUS  {: RESULT = new Node("+"); :}
            | MINUS {: RESULT = new Node("-"); :}
            | MULT  {: RESULT = new Node("*"); :}
            | DIV   {: RESULT = new Node("/"); :}
+           | POW   {: RESULT = new Node("^"); :}
            ;
 
-let_bind ::= LET IDENTIFIER:i EQUAL full_exp:e {:
-               Node n = new Node("LET");
-               n.addChild(new Node(i));
-               n.addChild((Node)e);
-               RESULT = n;
-             :};
+//let_bind ::= LET IDENTIFIER:i EQUAL full_exp:e {:
+//               Node n = new Node("INT");
+//               n.addChild(new Node(i));
+//               n.addChild((Node)e);
+//               RESULT = n;
+//             :};
+
+top_bind ::= TOP IDENTIFIER:i EQUAL full_exp:e {:
+                 Node n = new Node("TOP");
+                 n.addChild(new Node(i));
+                 n.addChild((Node)e);
+                 RESULT = n;
+
+               :};

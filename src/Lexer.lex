@@ -17,8 +17,18 @@ import java_cup.runtime.*;
 
     System.out.print("<");
     switch(type){
-      case sym.LET:
-        System.out.print("LET"); break;
+      case sym.INT:
+        System.out.print("INT"); break;
+      case sym.BOOL:
+        System.out.print("BOOL"); break;
+      case sym.RAT:
+        System.out.print("RAT"); break;
+      case sym.CHAR:
+        System.out.print("CHAR"); break;
+      case sym.TOP:
+        System.out.print("TOP"); break;
+      case sym.FLOAT:
+        System.out.print("FLOAT"); break;
       case sym.EQUAL:
         System.out.print(":="); break;
       case sym.SEMICOL:
@@ -55,26 +65,45 @@ import java_cup.runtime.*;
 %}
 
 Whitespace = \r|\n|\r\n|" "|"\t"
+Comment = ("/#".*"#/")
 
 Letter = [a-zA-Z]
+Char = "char"
+Int = "int"
+Bool = "bool"
+Rat = "rat"
+Float = "float"
+Dictionary = "dict"
+Top = {Char} | {Int} | {Bool} | {Rat} | {Float}
+
 Digit = [0-9]
 IdChar = {Letter} | {Digit} | "_"
 Identifier = {Letter}{IdChar}*
-Integer = (0|[1-9]{Digit}*)
+Integer = [-+]?(0|[1-9]{Digit}*)
 
 %%
+
 <YYINITIAL> {
 
-  "let"         { return symbol(sym.LET);        }
   {Integer}     { return symbol(sym.INTEGER,
                                 Integer.parseInt(yytext())); }
   {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
+  {Int}         { return symbol(sym.INT);        }
+  {Bool}        { return symbol(sym.BOOL);       }
+  {Rat}         { return symbol(sym.RAT);        }
+  {Float}       { return symbol(sym.FLOAT);      }
+  {Char}        { return symbol(sym.CHAR);       }
+  {Top}         { return symbol(sym.TOP);        }
+  {Dictionary}  { return symbol(sym.DICT);       }
 
   {Whitespace}  { /* do nothing */               }
+  {Comment}     { /* do nothing */               }
+  "#".*         { /* do nothing */               }
   ":="          { return symbol(sym.EQUAL);      }
   ";"           { return symbol(sym.SEMICOL);    }
   "+"           { return symbol(sym.PLUS);       }
   "-"           { return symbol(sym.MINUS);      }
+  "^"           { return symbol(sym.POW);        }
   "*"           { return symbol(sym.MULT);       }
   "/"           { return symbol(sym.DIV);        }
   "("           { return symbol(sym.LPAREN);     }
