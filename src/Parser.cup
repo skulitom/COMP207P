@@ -9,7 +9,7 @@ parser code {:
     public void syntax_error(Symbol current_token) {
         report_error(
             "Syntax error at line " + (current_token.left+1) + ", column "
-    + current_token.right, null
+    + current_token.right + "\n", null
         );
     }
 
@@ -67,7 +67,8 @@ precedence left DIV, MULT;
 precedence right POW;
 
 statements ::= statements statement | statement;
-statement  ::= top_level SEMICOL;
+statement  ::= top_level SEMICOL
+                | BADCHAR;
 top_level  ::= top_level PLUS top_level
             | top_level MINUS top_level
             | top_level MULT top_level
@@ -79,7 +80,6 @@ top_level  ::= top_level PLUS top_level
 
 
 
-//
 //top_level ::= statements:ss {:
 //                if(debug()) System.out.println((Node)ss);
 //              :}
@@ -121,7 +121,6 @@ top_level  ::= top_level PLUS top_level
 //                 RESULT = (Node)e;
 //               :}
 //             ;
-//
 //
 //integral_type ::= INT {: RESULT = new Node(n); :}
 //;
