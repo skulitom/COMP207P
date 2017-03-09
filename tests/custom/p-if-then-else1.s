@@ -7,7 +7,7 @@ fdef foo( pos : int ) {
 		else
 			print "spud";
 		fi
-		if (x && y ) then
+		if (1 && 2) then
 			read b;
 		fi
 	fi	
