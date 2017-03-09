@@ -107,6 +107,7 @@ full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
                 | IDENTIFIER COL SEQ LPAREN_TRI type RPAREN_TRI EQUAL array
                 | IDENTIFIER COL DICT LPAREN_TRI type COMMA type RPAREN_TRI EQUAL dictionary_structure
                 | IDENTIFIER COL type
+                | IDENTIFIER EQUAL simple_exp
                 | BREAK;
 
 simple_exp  ::= simple_exp operator_binary simple_exp
