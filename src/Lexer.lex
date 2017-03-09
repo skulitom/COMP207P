@@ -71,6 +71,7 @@ Letter = [a-zA-Z]
 Digit = [0-9]
 IdChar = {Letter} | {Digit} | "_"
 Identifier = {Letter}{IdChar}*
+Character = \'{IdChar}\'
 Integer = [-+]?(0|[1-9]{Digit}*)
 
 %%
@@ -97,6 +98,7 @@ Integer = [-+]?(0|[1-9]{Digit}*)
 
   {Whitespace}  { /* do nothing */               }
   {Comment}     { /* do nothing */               }
+  {Character}   { return symbol(sym.CHARACTER);  }
   "#".*         { /* do nothing */               }
   ":="          { return symbol(sym.EQUAL);      }
   ";"           { return symbol(sym.SEMICOL);    }
@@ -109,7 +111,8 @@ Integer = [-+]?(0|[1-9]{Digit}*)
   "("           { return symbol(sym.LPAREN);     }
   ")"           { return symbol(sym.RPAREN);     }
 
-  "\""           { return symbol(sym.QUOTE);     }
+  \"           { return symbol(sym.QUOTE);     }
+  \'           { return symbol(sym.SINGLE_QUOTE);     }
 
   "<"           { return symbol(sym.LPAREN_TRI);     }
   ">"           { return symbol(sym.RPAREN_TRI);     }
