@@ -85,6 +85,7 @@ Integer = [-+]?(0|[1-9]{Digit}*)
 <YYINITIAL>   "top"  { return symbol(sym.TOP);    }
 <YYINITIAL>   "dict"  { return symbol(sym.DICT);    }
 <YYINITIAL>   "return"  { return symbol(sym.RETURN);    }
+<YYINITIAL>   "seq"  { return symbol(sym.SEQ);    }
 
 
 <YYINITIAL> {
@@ -106,6 +107,11 @@ Integer = [-+]?(0|[1-9]{Digit}*)
   "/"           { return symbol(sym.DIV);        }
   "("           { return symbol(sym.LPAREN);     }
   ")"           { return symbol(sym.RPAREN);     }
+
+  "<"           { return symbol(sym.LPAREN_TRI);     }
+  ">"           { return symbol(sym.RPAREN_TRI);     }
+  "["           { return symbol(sym.LPAREN_SQ);     }
+  "]"           { return symbol(sym.RPAREN_SQ);     }
 
    ","          { return symbol(sym.COMMA);      }
    "{"         { return symbol(sym.LPAREN_CURLY);     }

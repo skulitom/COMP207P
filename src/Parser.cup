@@ -55,9 +55,9 @@ parser code {:
 :};
 
 // Do something with ILLEGAL_CHARARCTER or drop it.
-terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP, RAT, CHAR, POW, DICT, COMMA, COL, RETURN;
+terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP, RAT, CHAR, POW, DICT, COMMA, COL, RETURN, SEQ, ALIAS;
 terminal LPAREN, RPAREN;
-terminal LPAREN_CURLY, RPAREN_CURLY;
+terminal LPAREN_CURLY, RPAREN_CURLY, LPAREN_TRI, RPAREN_TRI, LPAREN_SQ, RPAREN_SQ;
 terminal BADCHAR;
 terminal INTEGER_LITERAL;
 terminal MAIN_FUNC;
@@ -68,6 +68,8 @@ nonterminal let_bind, full_exp, simple_exp, operator_binary;
 nonterminal method_declaration, method_header, method_body, methods;
 nonterminal parameter_list, parameter;
 nonterminal primitive_type, floating_point_type, numeric_type, integer_type, type;
+nonterminal dictionary_value, dictionary_list, dictionary_structure;
+nonterminal list, array, value;
 
 precedence left PLUS, MINUS;
 precedence left DIV, MULT;
@@ -88,12 +90,28 @@ parameter ::= IDENTIFIER COL primitive_type | ;
 
 statements ::= statements statement | statement;
 statement  ::= full_exp SEMICOL;
+
 full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
+                | IDENTIFIER COL SEQ LPAREN_TRI type RPAREN_TRI EQUAL array
+                | IDENTIFIER COL DICT LPAREN_TRI type COMMA type RPAREN_TRI EQUAL dictionary_structure
                 | IDENTIFIER COL type;
+
 simple_exp  ::= simple_exp operator_binary simple_exp
             | LPAREN simple_exp RPAREN
-            | INTEGER_LITERAL
+            | value
             ;
+
+dictionary_structure ::= LPAREN_CURLY dictionary_list RPAREN_CURLY ;
+
+dictionary_list ::= dictionary_value COMMA dictionary_value | ;
+
+dictionary_value ::= value COL value | LPAREN_CURLY RPAREN_CURLY | LPAREN_CURLY value COL value RPAREN_CURLY;
+
+array ::= LPAREN_SQ list RPAREN_SQ;
+
+list ::= list COMMA value | ;
+
+value ::= INTEGER_LITERAL;
 
 operator_binary ::= PLUS
             | MINUS
@@ -102,82 +120,9 @@ operator_binary ::= PLUS
             | POW
             ;
 
-
-
 type ::= primitive_type;
 primitive_type ::= numeric_type | BOOL;
 numeric_type ::= integer_type | floating_point_type;
 integer_type ::= INT | CHAR;
 floating_point_type ::= FLOAT | RAT;
 
-
-
-
-
-
-//top_level ::= statements:ss {:
-//                if(debug()) System.out.println((Node)ss);
-//              :}
-//            ;
-//
-//statements ::= statements:ss statement:s {:
-//                  Node n = (Node)ss;
-//                  n.addChild((Node)s);
-//                  RESULT = n;
-//               :}
-//             | /* empty */ {:
-//                  RESULT = new Node("Statements");
-//               :}
-//             ;
-//
-//statement ::= let_bind:s {:
-//                RESULT = (Node)s;
-//              :}
-//            | full_exp:s {:
-//                RESULT = (Node)s;
-//              :}
-//            ;
-//
-//full_exp ::= simple_exp:e SEMICOL {: RESULT = (Node)e; :};
-//
-//simple_exp ::= INTEGER:i    {: RESULT = new Node(i); :}
-//             | IDENTIFIER:i {: RESULT = new Node(i); :}
-//             | simple_exp:e1 operator:o simple_exp:e2 {:
-//                  Node n = (Node)o;
-//                  n.addChild((Node)e1);
-//                  n.addChild((Node)e2);
-//                  RESULT = n;
-//               :}
-//             | LPAREN simple_exp:e RPAREN {:
-//                 Node n = new Node("parens");
-//                 n.addChild(new Node("("));
-//                 n.addChild((Node)e);
-//                 n.addChild(new Node(")"));
-//                 RESULT = (Node)e;
-//               :}
-//             ;
-//
-//integral_type ::= INT {: RESULT = new Node(n); :}
-//;
-//
-//operator ::= PLUS  {: RESULT = new Node("+"); :}
-//           | MINUS {: RESULT = new Node("-"); :}
-//           | MULT  {: RESULT = new Node("*"); :}
-//           | DIV   {: RESULT = new Node("/"); :}
-//           | POW   {: RESULT = new Node("^"); :}
-//           ;
-//
-////let_bind ::= LET IDENTIFIER:i EQUAL full_exp:e {:
-////               Node n = new Node("INT");
-////               n.addChild(new Node(i));
-////               n.addChild((Node)e);
-////               RESULT = n;
-////             :};
-//
-//top_bind ::= TOP IDENTIFIER:i EQUAL full_exp:e {:
-//                 Node n = new Node("TOP");
-//                 n.addChild(new Node(i));
-//                 n.addChild((Node)e);
-//                 RESULT = n;
-//
-//               :};
