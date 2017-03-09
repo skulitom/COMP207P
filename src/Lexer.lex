@@ -100,6 +100,10 @@ String = \".*\"
 <YYINITIAL>   "loop"  { return symbol(sym.LOOP);    }
 <YYINITIAL>   "pool"  { return symbol(sym.POOL);    }
 <YYINITIAL>   "len"  { return symbol(sym.LEN);    }
+<YYINITIAL>   "print"  { return symbol(sym.PRINT);    }
+<YYINITIAL>   "string"  { return symbol(sym.STRING);    }
+<YYINITIAL>   "null"  { return symbol(sym.NULL);    }
+<YYINITIAL>   "tdef"  { return symbol(sym.TYPE_DECLARATOR);    }
 
 
 <YYINITIAL> {
@@ -119,12 +123,9 @@ String = \".*\"
   "#".*         { /* do nothing */               }
   ":="          { return symbol(sym.EQUAL);      }
   "!="          { return symbol(sym.COM_NOT_EQUAL);      }
-  "=>"          { return symbol(sym.IMPLY);      }
   "="          { return symbol(sym.COM_EQUAL);      }
   "<="          { return symbol(sym.LESS_THAN_OR_EQ); }
   "!"          { return symbol(sym.NOT); }
-  "&&"          { return symbol(sym.AND); }
-  "||"          { return symbol(sym.OR); }
   ";"           { return symbol(sym.SEMICOL);    }
   ":"           { return symbol(sym.COL);    }
   "+"           { return symbol(sym.PLUS);       }
@@ -148,6 +149,9 @@ String = \".*\"
    ","          { return symbol(sym.COMMA);      }
    "{"         { return symbol(sym.LPAREN_CURLY);     }
    "}"         { return symbol(sym.RPAREN_CURLY);     }
+   "=>"          { return symbol(sym.IMPLY);      }
+   "&&"          { return symbol(sym.AND); }
+   "||"          { return symbol(sym.OR); }
 }
 
 [^]  {
