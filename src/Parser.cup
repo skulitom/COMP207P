@@ -71,7 +71,7 @@ nonterminal statements, statement, top_level;
 nonterminal let_bind, full_exp, simple_exp, operator_binary;
 nonterminal method_declaration, method_header, method_body, methods;
 nonterminal parameter_list, parameter;
-nonterminal primitive_type, floating_point_type, numeric_type, integer_type, type;
+nonterminal primitive_type, floating_point_type, numeric_type, integer_type, type, result;
 nonterminal dictionary_value, dictionary_list, dictionary_structure, comparison, comparison_operators, boolean_operators, custom_type;
 nonterminal comparison_list, boolean_twoway_operators, comparable, boolean, comparables_list, string_content, simple_integer_exp, integer_value;
 nonterminal list, array, value, string;
@@ -122,6 +122,8 @@ simple_exp  ::= IDENTIFIER LPAREN_SQ simple_integer_exp RPAREN_SQ
             | IDENTIFIER
             ;
 
+result ::= simple_exp | IDENTIFIER;
+
 simple_integer_exp ::= simple_integer_exp operator_binary simple_integer_exp
                                | LPAREN simple_integer_exp RPAREN
                                | integer_value
@@ -143,7 +145,7 @@ list ::= list COMMA value | value |;
 
 comparables_list ::= comparables_list COMMA comparable| comparable |;
 
-value ::= INTEGER_LITERAL | CHARACTER | RATIONAL | FLOATING |NULL | boolean ;
+value ::= INTEGER_LITERAL | CHARACTER | RATIONAL | FLOATING |NULL | boolean | MINUS INTEGER_LITERAL ;
 
 boolean ::= TRUE | FALSE;
 
