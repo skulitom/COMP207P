@@ -73,7 +73,7 @@ nonterminal method_declaration, method_header, method_body, methods;
 nonterminal parameter_list, parameter;
 nonterminal primitive_type, floating_point_type, numeric_type, integer_type, type, function_call;
 nonterminal dictionary_value, dictionary_list, dictionary_structure, comparison, comparison_operators, boolean_operators, custom_type;
-nonterminal comparison_list, boolean_twoway_operators, comparable, boolean, comparables_list, string_content, simple_integer_exp, integer_value;
+nonterminal boolean_twoway_operators, boolean, comparables_list, string_content, simple_integer_exp, integer_value;
 nonterminal list, array, value, string;
 
 precedence left PLUS, MINUS, AND, OR, IMPLY;
@@ -90,9 +90,9 @@ method_header ::= METHOD_DECLARATOR IDENTIFIER LPAREN parameter_list RPAREN;
 method_body ::= statements | ;
 
 
-statements ::= LOOP statements POOL
-                | IF LPAREN comparison_list RPAREN THEN statements FI
-                | IF LPAREN comparison_list RPAREN THEN statements  ELSE statements FI
+statements ::= LOOP method_body POOL
+                | IF LPAREN comparison RPAREN THEN statements FI
+                | IF LPAREN comparison RPAREN THEN statements  ELSE statements FI
                 |statements statement | statement;
 
 statement  ::= full_exp SEMICOL;
@@ -105,7 +105,7 @@ full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
                 | IDENTIFIER EQUAL simple_exp
                 | function_call
                 | BREAK INTEGER_LITERAL
-                | PRINT value
+                | PRINT simple_exp
                 | RETURN simple_exp
                 | RETURN
                 | BREAK;
@@ -116,6 +116,7 @@ parameter ::= IDENTIFIER COL type | ;
 simple_exp  ::= IDENTIFIER LPAREN_SQ simple_integer_exp RPAREN_SQ
             | IDENTIFIER LPAREN_SQ simple_integer_exp COMMA simple_integer_exp RPAREN_SQ
             | simple_exp operator_binary simple_exp
+            | NOT LPAREN simple_exp RPAREN
             | LPAREN simple_exp RPAREN
             | value
             ;
@@ -139,9 +140,9 @@ string ::= STRING_LITERAL;
 
 list ::= list COMMA value | value |;
 
-comparables_list ::= comparables_list COMMA comparable| comparable |;
+comparables_list ::= comparables_list COMMA simple_exp| simple_exp |;
 
-value ::= INTEGER_LITERAL | CHARACTER | RATIONAL | FLOATING |NULL | boolean | function_call | MINUS INTEGER_LITERAL | string | IDENTIFIER;
+value ::= INTEGER_LITERAL | CHARACTER | RATIONAL | FLOATING |NULL | boolean | function_call | string | IDENTIFIER;
 
 boolean ::= TRUE | FALSE;
 
@@ -153,21 +154,13 @@ operator_binary ::= PLUS
             | boolean_twoway_operators
             ;
 
-function_call ::= QUESTION simple_exp QUESTION IDENTIFIER LPAREN comparables_list RPAREN;
-comparison ::= comparable comparison_operators comparable | comparable;
-comparison_list ::= comparison_list boolean_twoway_operators comparison
-                    |comparison_list boolean_twoway_operators LPAREN comparison RPAREN
-                    | NOT LPAREN comparison RPAREN
-                    |LPAREN comparison RPAREN
-                    |comparison |;
+function_call ::= QUESTION simple_exp QUESTION IDENTIFIER LPAREN comparison RPAREN;
 
-comparable ::=IDENTIFIER LPAREN_SQ simple_integer_exp COMMA simple_integer_exp RPAREN_SQ
-| IDENTIFIER LPAREN_SQ simple_integer_exp RPAREN_SQ
-| value;
+comparison ::= simple_exp comparison_operators simple_exp | simple_exp;
 
 integer_value ::= INTEGER_LITERAL | IDENTIFIER DOT LEN | IDENTIFIER;
 
-comparison_operators ::= COM_EQUAL | COM_NOT_EQUAL | LPAREN_TRI | LESS_THAN_OR_EQ | boolean_twoway_operators;
+comparison_operators ::= COM_EQUAL | COM_NOT_EQUAL | LPAREN_TRI | LESS_THAN_OR_EQ;
 
 boolean_operators ::= boolean_twoway_operators | NOT;
 
