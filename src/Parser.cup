@@ -76,9 +76,12 @@ precedence right POW;
 
 methods ::= methods method_declaration | method_declaration;
 method_declaration ::= method_header LPAREN_CURLY method_body RPAREN_CURLY SEMICOL
-                        | method_header LPAREN_CURLY method_body RETURN IDENTIFIER SEMICOL RPAREN_CURLY COL type SEMICOL;
+                        | method_header LPAREN_CURLY method_body RETURN IDENTIFIER SEMICOL RPAREN_CURLY COL type SEMICOL
+                        | MAIN_FUNC LPAREN_CURLY statements RPAREN_CURLY SEMICOL
+                        | MAIN_FUNC LPAREN_CURLY method_body RETURN SEMICOL RPAREN_CURLY SEMICOL
+                        | MAIN_FUNC LPAREN_CURLY method_body RETURN IDENTIFIER SEMICOL RPAREN_CURLY SEMICOL;
 
-method_header ::= MAIN_FUNC | METHOD_DECLARATOR IDENTIFIER LPAREN parameter_list RPAREN;
+method_header ::=  METHOD_DECLARATOR IDENTIFIER LPAREN parameter_list RPAREN;
 method_body ::= statements | ;
 
 
