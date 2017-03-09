@@ -1,2 +1,1 @@
-/# Hello World#/
-# Hello World m8
+/# comment #/
