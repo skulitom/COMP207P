@@ -8,7 +8,7 @@ public class sym {
   /* terminals */
   public static final int SEQ = 21;
   public static final int POW = 16;
-  public static final int MAIN_FUNC = 36;
+  public static final int MAIN_FUNC = 38;
   public static final int MULT = 8;
   public static final int CHAR = 15;
   public static final int LPAREN_TRI = 29;
@@ -21,6 +21,7 @@ public class sym {
   public static final int CHARACTER = 35;
   public static final int RPAREN = 26;
   public static final int LPAREN_SQ = 31;
+  public static final int RATIONAL = 37;
   public static final int BOOL = 12;
   public static final int COMMA = 18;
   public static final int SEMICOL = 5;
@@ -29,6 +30,7 @@ public class sym {
   public static final int RAT = 14;
   public static final int PLUS = 6;
   public static final int QUOTE = 23;
+  public static final int FLOATING = 36;
   public static final int RPAREN_CURLY = 28;
   public static final int EOF = 0;
   public static final int RETURN = 20;
@@ -38,7 +40,7 @@ public class sym {
   public static final int TOP = 13;
   public static final int COL = 19;
   public static final int DICT = 17;
-  public static final int METHOD_DECLARATOR = 37;
+  public static final int METHOD_DECLARATOR = 39;
   public static final int FLOAT = 11;
   public static final int RPAREN_SQ = 32;
   public static final int ALIAS = 22;
@@ -81,6 +83,8 @@ public class sym {
   "BADCHAR",
   "INTEGER_LITERAL",
   "CHARACTER",
+  "FLOATING",
+  "RATIONAL",
   "MAIN_FUNC",
   "METHOD_DECLARATOR"
   };

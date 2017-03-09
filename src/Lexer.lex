@@ -73,6 +73,9 @@ IdChar = {Letter} | {Digit} | "_"
 Identifier = {Letter}{IdChar}*
 Character = \'{IdChar}\'
 Integer = [-+]?(0|[1-9]{Digit}*)
+PositiveInteger = (0|[1-9]{Digit}*)
+Floating = {Integer}\.{PositiveInteger}
+Rational = {Integer}\\{Integer}
 
 %%
 
@@ -99,6 +102,8 @@ Integer = [-+]?(0|[1-9]{Digit}*)
   {Whitespace}  { /* do nothing */               }
   {Comment}     { /* do nothing */               }
   {Character}   { return symbol(sym.CHARACTER);  }
+  {Rational}    { return symbol(sym.RATIONAL);   }
+  {Floating}       { return symbol(sym.FLOATING);      }
   "#".*         { /* do nothing */               }
   ":="          { return symbol(sym.EQUAL);      }
   ";"           { return symbol(sym.SEMICOL);    }
