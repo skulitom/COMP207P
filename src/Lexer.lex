@@ -75,7 +75,8 @@ Character = \'{IdChar}\'
 Integer = [-+]?(0|[1-9]{Digit}*)
 PositiveInteger = (0|[1-9]{Digit}*)
 Floating = {Integer}\.{PositiveInteger}
-Rational = {Integer}\\{Integer}
+Rational = {Integer}"/"{Integer}
+String = \".*\"
 
 %%
 
@@ -98,22 +99,27 @@ Rational = {Integer}\\{Integer}
 <YYINITIAL>   "break"  { return symbol(sym.BREAK);    }
 <YYINITIAL>   "loop"  { return symbol(sym.LOOP);    }
 <YYINITIAL>   "pool"  { return symbol(sym.POOL);    }
+<YYINITIAL>   "len"  { return symbol(sym.LEN);    }
 
 
 <YYINITIAL> {
 
-  {Integer}     { return symbol(sym.INTEGER_LITERAL,
+  {PositiveInteger}     { return symbol(sym.INTEGER_LITERAL,
                                 Integer.parseInt(yytext())); }
+   "T"         { return symbol(sym.TRUE);     }
+   "F"         { return symbol(sym.FALSE);     }
   {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
 
   {Whitespace}  { /* do nothing */               }
   {Comment}     { /* do nothing */               }
   {Character}   { return symbol(sym.CHARACTER);  }
   {Rational}    { return symbol(sym.RATIONAL);   }
+  {String}    { return symbol(sym.STRING_LITERAL);   }
   {Floating}       { return symbol(sym.FLOATING);      }
   "#".*         { /* do nothing */               }
   ":="          { return symbol(sym.EQUAL);      }
   "!="          { return symbol(sym.COM_NOT_EQUAL);      }
+  "=>"          { return symbol(sym.IMPLY);      }
   "="          { return symbol(sym.COM_EQUAL);      }
   "<="          { return symbol(sym.LESS_THAN_OR_EQ); }
   "!"          { return symbol(sym.NOT); }
@@ -128,6 +134,8 @@ Rational = {Integer}\\{Integer}
   "/"           { return symbol(sym.DIV);        }
   "("           { return symbol(sym.LPAREN);     }
   ")"           { return symbol(sym.RPAREN);     }
+  "?"           { return symbol(sym.QUESTION);   }
+  "."           { return symbol(sym.DOT);   }
 
   \"           { return symbol(sym.QUOTE);     }
   \'           { return symbol(sym.SINGLE_QUOTE);     }

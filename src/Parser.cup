@@ -55,12 +55,12 @@ parser code {:
 :};
 
 // Do something with ILLEGAL_CHARARCTER or drop it.
-terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP,
- RAT, CHAR, POW, DICT, COMMA, COL, RETURN, SEQ, ALIAS, QUOTE, SINGLE_QUOTE, NOT, AND, OR;
+terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP, DOT, LEN,
+ RAT, CHAR, POW, DICT, COMMA, COL, RETURN, SEQ, ALIAS, QUOTE, SINGLE_QUOTE, NOT, AND, OR, QUESTION, IMPLY, STRING_LITERAL;
 terminal LPAREN, RPAREN;
 terminal LPAREN_CURLY, RPAREN_CURLY, LPAREN_TRI, RPAREN_TRI, LPAREN_SQ, RPAREN_SQ;
 terminal BADCHAR;
-terminal INTEGER_LITERAL , CHARACTER, FLOATING, RATIONAL;
+terminal INTEGER_LITERAL , CHARACTER, FLOATING, RATIONAL, TRUE, FALSE;
 terminal IF, FI, ELSE, BREAK, THEN;
 terminal COM_EQUAL, COM_NOT_EQUAL, LESS_THAN, LESS_THAN_OR_EQ;
 terminal LOOP, POOL;
@@ -73,7 +73,7 @@ nonterminal method_declaration, method_header, method_body, methods;
 nonterminal parameter_list, parameter;
 nonterminal primitive_type, floating_point_type, numeric_type, integer_type, type;
 nonterminal dictionary_value, dictionary_list, dictionary_structure, comparison, comparison_operators, boolean_operators;
-nonterminal comparison_list, boolean_twoway_operators, comparable;
+nonterminal comparison_list, boolean_twoway_operators, comparable, boolean, comparables_list, string_content, simple_integer_exp, integer_value;
 nonterminal list, array, value, string;
 
 precedence left PLUS, MINUS;
@@ -92,10 +92,6 @@ method_header ::= METHOD_DECLARATOR IDENTIFIER LPAREN parameter_list RPAREN;
 method_body ::= statements | ;
 
 
-parameter_list ::= parameter_list COMMA parameter | parameter;
-parameter ::= IDENTIFIER COL primitive_type | ;
-
-
 statements ::= LOOP statements POOL
                 | IF LPAREN comparison_list RPAREN THEN statements FI
                 | IF LPAREN comparison_list RPAREN THEN statements  ELSE statements FI
@@ -105,15 +101,28 @@ statement  ::= full_exp SEMICOL;
 
 full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
                 | IDENTIFIER COL SEQ LPAREN_TRI type RPAREN_TRI EQUAL array
-                | IDENTIFIER COL DICT LPAREN_TRI type COMMA type RPAREN_TRI EQUAL dictionary_structure
+                | IDENTIFIER COL DICT LPAREN_TRI INT COMMA type RPAREN_TRI EQUAL dictionary_structure
                 | IDENTIFIER COL type
                 | IDENTIFIER EQUAL simple_exp
+                | QUESTION simple_exp QUESTION IDENTIFIER LPAREN comparables_list RPAREN
+                | BREAK INTEGER_LITERAL
                 | BREAK;
 
-simple_exp  ::= simple_exp operator_binary simple_exp
+
+parameter_list ::= parameter_list COMMA parameter | parameter;
+parameter ::= IDENTIFIER COL type | ;
+
+simple_exp  ::= IDENTIFIER LPAREN_SQ simple_integer_exp RPAREN_SQ
+            | IDENTIFIER LPAREN_SQ simple_integer_exp COMMA simple_integer_exp RPAREN_SQ
+            | simple_exp operator_binary simple_exp
             | LPAREN simple_exp RPAREN
             | value
             ;
+
+simple_integer_exp ::= simple_integer_exp operator_binary simple_integer_exp
+                               | LPAREN simple_integer_exp RPAREN
+                               | integer_value
+                               ;
 
 dictionary_structure ::= LPAREN_CURLY dictionary_list RPAREN_CURLY ;
 
@@ -123,11 +132,15 @@ dictionary_value ::= value COL value | LPAREN_CURLY RPAREN_CURLY | LPAREN_CURLY 
 
 array ::= LPAREN_SQ list RPAREN_SQ | string;
 
-string ::= QUOTE IDENTIFIER QUOTE;
+string ::= STRING_LITERAL;
 
 list ::= list COMMA value | value |;
 
-value ::= INTEGER_LITERAL | CHARACTER | RATIONAL | FLOATING;
+comparables_list ::= comparables_list COMMA comparable| comparable |;
+
+value ::= INTEGER_LITERAL | CHARACTER | RATIONAL | FLOATING | boolean;
+
+boolean ::= TRUE | FALSE;
 
 operator_binary ::= PLUS
             | MINUS
@@ -138,19 +151,22 @@ operator_binary ::= PLUS
 
 
 comparison ::= comparable comparison_operators comparable;
-comparison_list ::= comparison_list boolean_twoway_operators comparison | NOT comparison |comparison ;
+comparison_list ::= comparison_list boolean_twoway_operators comparison
+                    |comparison_list boolean_twoway_operators LPAREN comparison RPAREN  | NOT LPAREN comparison RPAREN |LPAREN comparison RPAREN |comparison |;
 
 comparable ::= value | IDENTIFIER;
 
-comparison_operators ::= COM_EQUAL | COM_NOT_EQUAL | LPAREN_TRI | LESS_THAN_OR_EQ;
+integer_value ::= INTEGER_LITERAL | IDENTIFIER DOT LEN;
+
+comparison_operators ::= COM_EQUAL | COM_NOT_EQUAL | LPAREN_TRI | LESS_THAN_OR_EQ | boolean_twoway_operators;
 
 boolean_operators ::= boolean_twoway_operators | NOT;
 
-boolean_twoway_operators ::= AND | OR ;
+boolean_twoway_operators ::= AND | OR | IMPLY;
 
-type ::= primitive_type;
+type ::= primitive_type | TOP;
 primitive_type ::= numeric_type | BOOL;
 numeric_type ::= integer_type | floating_point_type;
-integer_type ::= INT | CHAR;
+integer_type ::= INT | CHAR ;
 floating_point_type ::= FLOAT | RAT;
 

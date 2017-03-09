@@ -6,59 +6,66 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int SEQ = 21;
-  public static final int COM_NOT_EQUAL = 47;
-  public static final int POW = 16;
-  public static final int MAIN_FUNC = 52;
+  public static final int SEQ = 23;
+  public static final int COM_NOT_EQUAL = 54;
+  public static final int POW = 18;
+  public static final int STRING_LITERAL = 32;
+  public static final int MAIN_FUNC = 59;
   public static final int MULT = 8;
-  public static final int CHAR = 15;
-  public static final int POOL = 51;
-  public static final int LPAREN_TRI = 32;
+  public static final int CHAR = 17;
+  public static final int POOL = 58;
+  public static final int LPAREN_TRI = 37;
   public static final int INTEGER = 2;
-  public static final int LPAREN = 28;
-  public static final int BADCHAR = 36;
+  public static final int LPAREN = 33;
+  public static final int BADCHAR = 41;
   public static final int INT = 10;
   public static final int MINUS = 7;
-  public static final int LPAREN_CURLY = 30;
-  public static final int CHARACTER = 38;
-  public static final int RPAREN = 29;
-  public static final int LESS_THAN_OR_EQ = 49;
-  public static final int NOT = 25;
-  public static final int AND = 26;
-  public static final int LPAREN_SQ = 34;
-  public static final int RATIONAL = 40;
-  public static final int OR = 27;
+  public static final int LPAREN_CURLY = 35;
+  public static final int CHARACTER = 43;
+  public static final int RPAREN = 34;
+  public static final int LESS_THAN_OR_EQ = 56;
+  public static final int LPAREN_SQ = 39;
+  public static final int NOT = 27;
+  public static final int AND = 28;
+  public static final int RATIONAL = 45;
+  public static final int OR = 29;
   public static final int BOOL = 12;
-  public static final int COMMA = 18;
+  public static final int COMMA = 20;
   public static final int SEMICOL = 5;
-  public static final int FI = 42;
+  public static final int FI = 49;
+  public static final int RPAREN_TRI = 38;
   public static final int DIV = 9;
-  public static final int RPAREN_TRI = 33;
-  public static final int RAT = 14;
-  public static final int LOOP = 50;
+  public static final int RAT = 16;
+  public static final int LOOP = 57;
   public static final int PLUS = 6;
-  public static final int IF = 41;
-  public static final int QUOTE = 23;
-  public static final int COM_EQUAL = 46;
-  public static final int FLOATING = 39;
-  public static final int RPAREN_CURLY = 31;
+  public static final int IF = 48;
+  public static final int QUOTE = 25;
+  public static final int COM_EQUAL = 53;
+  public static final int DOT = 14;
+  public static final int FLOATING = 44;
+  public static final int RPAREN_CURLY = 36;
   public static final int EOF = 0;
-  public static final int RETURN = 20;
+  public static final int RETURN = 22;
   public static final int EQUAL = 4;
+  public static final int TRUE = 46;
   public static final int error = 1;
-  public static final int BREAK = 44;
-  public static final int SINGLE_QUOTE = 24;
+  public static final int BREAK = 51;
+  public static final int IMPLY = 31;
+  public static final int SINGLE_QUOTE = 26;
   public static final int TOP = 13;
-  public static final int COL = 19;
-  public static final int ELSE = 43;
-  public static final int DICT = 17;
-  public static final int METHOD_DECLARATOR = 53;
+  public static final int COL = 21;
+  public static final int ELSE = 50;
+  public static final int DICT = 19;
+  public static final int METHOD_DECLARATOR = 60;
   public static final int FLOAT = 11;
-  public static final int THEN = 45;
-  public static final int RPAREN_SQ = 35;
-  public static final int ALIAS = 22;
-  public static final int LESS_THAN = 48;
-  public static final int INTEGER_LITERAL = 37;
+  public static final int THEN = 52;
+  public static final int RPAREN_SQ = 40;
+  public static final int LEN = 15;
+  public static final int QUESTION = 30;
+  public static final int ALIAS = 24;
+  public static final int FALSE = 47;
+  public static final int LESS_THAN = 55;
+  public static final int INTEGER_LITERAL = 42;
   public static final int IDENTIFIER = 3;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -75,6 +82,8 @@ public class sym {
   "FLOAT",
   "BOOL",
   "TOP",
+  "DOT",
+  "LEN",
   "RAT",
   "CHAR",
   "POW",
@@ -89,6 +98,9 @@ public class sym {
   "NOT",
   "AND",
   "OR",
+  "QUESTION",
+  "IMPLY",
+  "STRING_LITERAL",
   "LPAREN",
   "RPAREN",
   "LPAREN_CURLY",
@@ -102,6 +114,8 @@ public class sym {
   "CHARACTER",
   "FLOATING",
   "RATIONAL",
+  "TRUE",
+  "FALSE",
   "IF",
   "FI",
   "ELSE",
