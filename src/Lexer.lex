@@ -86,6 +86,7 @@ Integer = [-+]?(0|[1-9]{Digit}*)
 <YYINITIAL>   "dict"  { return symbol(sym.DICT);    }
 <YYINITIAL>   "return"  { return symbol(sym.RETURN);    }
 <YYINITIAL>   "seq"  { return symbol(sym.SEQ);    }
+<YYINITIAL>   "alias"  { return symbol(sym.ALIAS);    }
 
 
 <YYINITIAL> {
