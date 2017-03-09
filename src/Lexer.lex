@@ -109,6 +109,8 @@ Integer = [-+]?(0|[1-9]{Digit}*)
   "("           { return symbol(sym.LPAREN);     }
   ")"           { return symbol(sym.RPAREN);     }
 
+  "\""           { return symbol(sym.QUOTE);     }
+
   "<"           { return symbol(sym.LPAREN_TRI);     }
   ">"           { return symbol(sym.RPAREN_TRI);     }
   "["           { return symbol(sym.LPAREN_SQ);     }

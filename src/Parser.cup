@@ -55,7 +55,7 @@ parser code {:
 :};
 
 // Do something with ILLEGAL_CHARARCTER or drop it.
-terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP, RAT, CHAR, POW, DICT, COMMA, COL, RETURN, SEQ, ALIAS;
+terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP, RAT, CHAR, POW, DICT, COMMA, COL, RETURN, SEQ, ALIAS, QUOTE;
 terminal LPAREN, RPAREN;
 terminal LPAREN_CURLY, RPAREN_CURLY, LPAREN_TRI, RPAREN_TRI, LPAREN_SQ, RPAREN_SQ;
 terminal BADCHAR;
@@ -69,7 +69,7 @@ nonterminal method_declaration, method_header, method_body, methods;
 nonterminal parameter_list, parameter;
 nonterminal primitive_type, floating_point_type, numeric_type, integer_type, type;
 nonterminal dictionary_value, dictionary_list, dictionary_structure;
-nonterminal list, array, value;
+nonterminal list, array, value, string;
 
 precedence left PLUS, MINUS;
 precedence left DIV, MULT;
@@ -103,13 +103,15 @@ simple_exp  ::= simple_exp operator_binary simple_exp
 
 dictionary_structure ::= LPAREN_CURLY dictionary_list RPAREN_CURLY ;
 
-dictionary_list ::= dictionary_list COMMA dictionary_value | ;
+dictionary_list ::= dictionary_list COMMA dictionary_value | dictionary_value | ;
 
 dictionary_value ::= value COL value | LPAREN_CURLY RPAREN_CURLY | LPAREN_CURLY value COL value RPAREN_CURLY;
 
-array ::= LPAREN_SQ list RPAREN_SQ;
+array ::= LPAREN_SQ list RPAREN_SQ | string;
 
-list ::= list COMMA value | ;
+string ::= QUOTE IDENTIFIER QUOTE;
+
+list ::= list COMMA value | value |;
 
 value ::= INTEGER_LITERAL;
 

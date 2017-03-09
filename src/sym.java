@@ -6,41 +6,42 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int LPAREN_SQ = 29;
-  public static final int PLUS = 6;
-  public static final int BADCHAR = 31;
-  public static final int RPAREN = 24;
-  public static final int INT = 10;
-  public static final int ALIAS = 22;
-  public static final int EQUAL = 4;
-  public static final int CHAR = 15;
-  public static final int RETURN = 20;
-  public static final int IDENTIFIER = 3;
-  public static final int POW = 16;
-  public static final int COL = 19;
-  public static final int MAIN_FUNC = 33;
-  public static final int LPAREN = 23;
-  public static final int RPAREN_SQ = 30;
-  public static final int COMMA = 18;
-  public static final int DICT = 17;
-  public static final int FLOAT = 11;
-  public static final int EOF = 0;
-  public static final int MULT = 8;
-  public static final int RPAREN_TRI = 28;
-  public static final int LPAREN_TRI = 27;
-  public static final int METHOD_DECLARATOR = 34;
-  public static final int DIV = 9;
-  public static final int SEMICOL = 5;
-  public static final int TOP = 13;
-  public static final int LPAREN_CURLY = 25;
   public static final int SEQ = 21;
-  public static final int RPAREN_CURLY = 26;
-  public static final int RAT = 14;
-  public static final int MINUS = 7;
-  public static final int error = 1;
-  public static final int INTEGER_LITERAL = 32;
-  public static final int BOOL = 12;
+  public static final int POW = 16;
+  public static final int MAIN_FUNC = 34;
+  public static final int MULT = 8;
+  public static final int CHAR = 15;
+  public static final int LPAREN_TRI = 28;
   public static final int INTEGER = 2;
+  public static final int LPAREN = 24;
+  public static final int BADCHAR = 32;
+  public static final int INT = 10;
+  public static final int MINUS = 7;
+  public static final int LPAREN_CURLY = 26;
+  public static final int RPAREN = 25;
+  public static final int LPAREN_SQ = 30;
+  public static final int BOOL = 12;
+  public static final int COMMA = 18;
+  public static final int SEMICOL = 5;
+  public static final int DIV = 9;
+  public static final int RPAREN_TRI = 29;
+  public static final int RAT = 14;
+  public static final int PLUS = 6;
+  public static final int QUOTE = 23;
+  public static final int RPAREN_CURLY = 27;
+  public static final int EOF = 0;
+  public static final int RETURN = 20;
+  public static final int EQUAL = 4;
+  public static final int error = 1;
+  public static final int TOP = 13;
+  public static final int COL = 19;
+  public static final int DICT = 17;
+  public static final int METHOD_DECLARATOR = 35;
+  public static final int FLOAT = 11;
+  public static final int RPAREN_SQ = 31;
+  public static final int ALIAS = 22;
+  public static final int INTEGER_LITERAL = 33;
+  public static final int IDENTIFIER = 3;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -65,6 +66,7 @@ public class sym {
   "RETURN",
   "SEQ",
   "ALIAS",
+  "QUOTE",
   "LPAREN",
   "RPAREN",
   "LPAREN_CURLY",
