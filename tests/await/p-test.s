@@ -1,11 +1,9 @@
-
 fdef name (x : int, y : bool) {};
 
 fdef name (x : int, y : bool) {return x;} : int;
 
 main
 {
-if (2 < i) then
-break;
-fi
+y : int;
+x : int := (3 ^ 4) + 56;
 };

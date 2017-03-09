@@ -1,11 +1,9 @@
-
 fdef name (x : int, y : bool) {};
 
 fdef name (x : int, y : bool) {return x;} : int;
 
 main
 {
-if (2 < i) then
-break;
-fi
+f : seq<int> := [1,2,3,4];
+x : int := (3 ^ 4) + 56/-445;
 };

@@ -72,7 +72,7 @@ nonterminal method_declaration, method_header, method_body, methods;
 nonterminal parameter_list, parameter;
 nonterminal primitive_type, floating_point_type, numeric_type, integer_type, type;
 nonterminal dictionary_value, dictionary_list, dictionary_structure, comparison, comparison_operators, boolean_operators;
-nonterminal comparison_list, boolean_twoway_operators;
+nonterminal comparison_list, boolean_twoway_operators, comparable;
 nonterminal list, array, value, string;
 
 precedence left PLUS, MINUS;
@@ -92,8 +92,8 @@ parameter_list ::= parameter_list COMMA parameter | parameter;
 parameter ::= IDENTIFIER COL primitive_type | ;
 
 
-statements ::= FI LPAREN comparison_list RPAREN THEN statements FI
-                | FI LPAREN comparison_list RPAREN THEN statements  ELSE statements FI
+statements ::= IF LPAREN comparison_list RPAREN THEN statements FI
+                | IF LPAREN comparison_list RPAREN THEN statements  ELSE statements FI
                 |statements statement | statement;
 statement  ::= full_exp SEMICOL;
 
@@ -129,8 +129,10 @@ operator_binary ::= PLUS
             ;
 
 
-comparison ::= value comparison_operators value | LPAREN value comparison_operators value RPAREN;
+comparison ::= comparable comparison_operators comparable;
 comparison_list ::= comparison_list boolean_twoway_operators comparison | NOT comparison |comparison ;
+
+comparable ::= value | IDENTIFIER;
 
 comparison_operators ::= COM_EQUAL | COM_NOT_EQUAL | LPAREN_TRI | LESS_THAN_OR_EQ;
 
