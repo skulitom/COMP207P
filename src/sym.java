@@ -9,9 +9,10 @@ public class sym {
   public static final int SEQ = 21;
   public static final int COM_NOT_EQUAL = 47;
   public static final int POW = 16;
-  public static final int MAIN_FUNC = 50;
+  public static final int MAIN_FUNC = 52;
   public static final int MULT = 8;
   public static final int CHAR = 15;
+  public static final int POOL = 51;
   public static final int LPAREN_TRI = 32;
   public static final int INTEGER = 2;
   public static final int LPAREN = 28;
@@ -34,6 +35,7 @@ public class sym {
   public static final int DIV = 9;
   public static final int RPAREN_TRI = 33;
   public static final int RAT = 14;
+  public static final int LOOP = 50;
   public static final int PLUS = 6;
   public static final int IF = 41;
   public static final int QUOTE = 23;
@@ -50,7 +52,7 @@ public class sym {
   public static final int COL = 19;
   public static final int ELSE = 43;
   public static final int DICT = 17;
-  public static final int METHOD_DECLARATOR = 51;
+  public static final int METHOD_DECLARATOR = 53;
   public static final int FLOAT = 11;
   public static final int THEN = 45;
   public static final int RPAREN_SQ = 35;
@@ -109,6 +111,8 @@ public class sym {
   "COM_NOT_EQUAL",
   "LESS_THAN",
   "LESS_THAN_OR_EQ",
+  "LOOP",
+  "POOL",
   "MAIN_FUNC",
   "METHOD_DECLARATOR"
   };

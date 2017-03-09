@@ -96,6 +96,8 @@ Rational = {Integer}\\{Integer}
 <YYINITIAL>   "fi"  { return symbol(sym.FI);    }
 <YYINITIAL>   "else"  { return symbol(sym.ELSE);    }
 <YYINITIAL>   "break"  { return symbol(sym.BREAK);    }
+<YYINITIAL>   "loop"  { return symbol(sym.LOOP);    }
+<YYINITIAL>   "pool"  { return symbol(sym.POOL);    }
 
 
 <YYINITIAL> {

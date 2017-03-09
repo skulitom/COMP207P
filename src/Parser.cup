@@ -63,6 +63,7 @@ terminal BADCHAR;
 terminal INTEGER_LITERAL , CHARACTER, FLOATING, RATIONAL;
 terminal IF, FI, ELSE, BREAK, THEN;
 terminal COM_EQUAL, COM_NOT_EQUAL, LESS_THAN, LESS_THAN_OR_EQ;
+terminal LOOP, POOL;
 terminal MAIN_FUNC;
 terminal METHOD_DECLARATOR;
 
@@ -82,9 +83,12 @@ precedence right POW;
 
 methods ::= methods method_declaration | method_declaration;
 method_declaration ::= method_header LPAREN_CURLY method_body RPAREN_CURLY SEMICOL
-                        | method_header LPAREN_CURLY method_body RETURN IDENTIFIER SEMICOL RPAREN_CURLY COL type SEMICOL;
+                        | method_header LPAREN_CURLY method_body RETURN IDENTIFIER SEMICOL RPAREN_CURLY COL type SEMICOL
+                        | MAIN_FUNC LPAREN_CURLY statements RPAREN_CURLY SEMICOL
+                        | MAIN_FUNC LPAREN_CURLY method_body RETURN SEMICOL RPAREN_CURLY SEMICOL
+                        | MAIN_FUNC LPAREN_CURLY method_body RETURN IDENTIFIER SEMICOL RPAREN_CURLY SEMICOL;
 
-method_header ::= MAIN_FUNC | METHOD_DECLARATOR IDENTIFIER LPAREN parameter_list RPAREN;
+method_header ::= METHOD_DECLARATOR IDENTIFIER LPAREN parameter_list RPAREN;
 method_body ::= statements | ;
 
 
@@ -92,15 +96,18 @@ parameter_list ::= parameter_list COMMA parameter | parameter;
 parameter ::= IDENTIFIER COL primitive_type | ;
 
 
-statements ::= IF LPAREN comparison_list RPAREN THEN statements FI
+statements ::= LOOP statements POOL
+                | IF LPAREN comparison_list RPAREN THEN statements FI
                 | IF LPAREN comparison_list RPAREN THEN statements  ELSE statements FI
                 |statements statement | statement;
+
 statement  ::= full_exp SEMICOL;
 
 full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
                 | IDENTIFIER COL SEQ LPAREN_TRI type RPAREN_TRI EQUAL array
                 | IDENTIFIER COL DICT LPAREN_TRI type COMMA type RPAREN_TRI EQUAL dictionary_structure
-                | IDENTIFIER COL type;
+                | IDENTIFIER COL type
+                | BREAK;
 
 simple_exp  ::= simple_exp operator_binary simple_exp
             | LPAREN simple_exp RPAREN
