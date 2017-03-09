@@ -114,6 +114,9 @@ Rational = {Integer}\\{Integer}
   "!="          { return symbol(sym.COM_NOT_EQUAL);      }
   "="          { return symbol(sym.COM_EQUAL);      }
   "<="          { return symbol(sym.LESS_THAN_OR_EQ); }
+  "!"          { return symbol(sym.NOT); }
+  "&&"          { return symbol(sym.AND); }
+  "||"          { return symbol(sym.OR); }
   ";"           { return symbol(sym.SEMICOL);    }
   ":"           { return symbol(sym.COL);    }
   "+"           { return symbol(sym.PLUS);       }
