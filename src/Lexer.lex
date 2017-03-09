@@ -91,6 +91,11 @@ Rational = {Integer}\\{Integer}
 <YYINITIAL>   "return"  { return symbol(sym.RETURN);    }
 <YYINITIAL>   "seq"  { return symbol(sym.SEQ);    }
 <YYINITIAL>   "alias"  { return symbol(sym.ALIAS);    }
+<YYINITIAL>   "if"  { return symbol(sym.IF);    }
+<YYINITIAL>   "then"  { return symbol(sym.THEN);    }
+<YYINITIAL>   "fi"  { return symbol(sym.FI);    }
+<YYINITIAL>   "else"  { return symbol(sym.ELSE);    }
+<YYINITIAL>   "break"  { return symbol(sym.BREAK);    }
 
 
 <YYINITIAL> {
@@ -106,6 +111,9 @@ Rational = {Integer}\\{Integer}
   {Floating}       { return symbol(sym.FLOATING);      }
   "#".*         { /* do nothing */               }
   ":="          { return symbol(sym.EQUAL);      }
+  "!="          { return symbol(sym.COM_NOT_EQUAL);      }
+  "="          { return symbol(sym.COM_EQUAL);      }
+  "<="          { return symbol(sym.LESS_THAN_OR_EQ); }
   ";"           { return symbol(sym.SEMICOL);    }
   ":"           { return symbol(sym.COL);    }
   "+"           { return symbol(sym.PLUS);       }

@@ -61,6 +61,8 @@ terminal LPAREN, RPAREN;
 terminal LPAREN_CURLY, RPAREN_CURLY, LPAREN_TRI, RPAREN_TRI, LPAREN_SQ, RPAREN_SQ;
 terminal BADCHAR;
 terminal INTEGER_LITERAL , CHARACTER, FLOATING, RATIONAL;
+terminal IF, FI, ELSE, BREAK, THEN;
+terminal COM_EQUAL, COM_NOT_EQUAL, LESS_THAN, LESS_THAN_OR_EQ;
 terminal MAIN_FUNC;
 terminal METHOD_DECLARATOR;
 
@@ -122,6 +124,8 @@ operator_binary ::= PLUS
             | DIV
             | POW
             ;
+
+comparisons ::= COM_EQUAL | COM_NOT_EQUAL | LPAREN_TRI | LESS_THAN_OR_EQ;
 
 type ::= primitive_type;
 primitive_type ::= numeric_type | BOOL;
