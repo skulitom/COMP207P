@@ -76,16 +76,19 @@ nonterminal dictionary_value, dictionary_list, dictionary_structure, comparison,
 nonterminal boolean_twoway_operators, boolean, comparables_list, string_content, simple_integer_exp, integer_value;
 nonterminal value_simple, list_simple, comparison_parameters;
 nonterminal list, array, value, string, negative, special_statement,complex_type, merged_type;
+nonterminal program, main_method ;
 
 precedence left PLUS, MINUS, AND, OR, IMPLY, IN;
 precedence left DIV, MULT;
 precedence right POW;
 
+program ::= methods main_method methods | main_method methods | methods main_method| main_method;
 
 methods ::= methods method_declaration | method_declaration | statements;
 method_declaration ::= method_header LPAREN_CURLY method_body RPAREN_CURLY SEMICOL
-                        | method_header LPAREN_CURLY method_body RPAREN_CURLY COL merged_type SEMICOL
-                        | MAIN_FUNC LPAREN_CURLY statements RPAREN_CURLY SEMICOL;
+                      | method_header LPAREN_CURLY method_body RPAREN_CURLY COL merged_type SEMICOL ;
+
+main_method ::= MAIN_FUNC LPAREN_CURLY statements RPAREN_CURLY SEMICOL;
 
 method_header ::= METHOD_DECLARATOR IDENTIFIER LPAREN parameter_list RPAREN;
 method_body ::= statements | ;
