@@ -76,7 +76,7 @@ nonterminal dictionary_value, dictionary_list, dictionary_structure, comparison,
 nonterminal boolean_twoway_operators, boolean, comparables_list, string_content, simple_integer_exp, integer_value;
 nonterminal value_simple, list_simple, comparison_parameters;
 nonterminal list, array, value, string, negative, special_statement,complex_type, merged_type;
-nonterminal program, main_method, all_binary ;
+nonterminal program, main_method, all_binary, clean_value, parameter_values ;
 
 precedence left PLUS, MINUS, AND, OR, IMPLY, IN, COM_EQUAL , COM_NOT_EQUAL , LPAREN_TRI , LESS_THAN_OR_EQ, COMMA, CONCAT;
 precedence left DIV, MULT;
@@ -118,7 +118,8 @@ full_exp   ::= IDENTIFIER COL merged_type EQUAL list
                 | BREAK;
 
 parameter_list ::= parameter_list COMMA parameter | parameter;
-parameter ::= IDENTIFIER COL merged_type | complex_type COL merged_type |;
+parameter ::= parameter COL parameter_values | parameter_values ;
+parameter_values ::= merged_type | clean_value |;
 
 complex_type ::=  DICT LPAREN_TRI INT COMMA type RPAREN_TRI
                | SEQ LPAREN_TRI type RPAREN_TRI;
@@ -151,6 +152,8 @@ array ::= LPAREN_SQ list RPAREN_SQ ;
 delimitors ::= COMMA | CONCAT ;
 
 value ::= integer_value | CHARACTER | RATIONAL | FLOATING |NULL | boolean | function_call | string | negative | IDENTIFIER DOT IDENTIFIER  ;
+
+clean_value ::= CHARACTER | RATIONAL | FLOATING |NULL | boolean | function_call | string | negative | INTEGER_LITERAL | IDENTIFIER DOT LEN | IDENTIFIER DOT IDENTIFIER  ;
 
 boolean ::= TRUE | FALSE;
 
