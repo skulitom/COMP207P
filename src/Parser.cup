@@ -57,7 +57,7 @@ parser code {:
 // Do something with ILLEGAL_CHARARCTER or drop it.
 terminal INTEGER, IDENTIFIER, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV, INT, FLOAT, BOOL, TOP, DOT, LEN, STRING, NULL,
  RAT, CHAR, POW, DICT, COMMA, COL, RETURN, SEQ, ALIAS, QUOTE, SINGLE_QUOTE, NOT, AND, OR, QUESTION, IMPLY, STRING_LITERAL, PRINT;
-terminal LPAREN, RPAREN, CONCAT;
+terminal LPAREN, RPAREN, CONCAT, IN;
 terminal LPAREN_CURLY, RPAREN_CURLY, LPAREN_TRI, RPAREN_TRI, LPAREN_SQ, RPAREN_SQ;
 terminal BADCHAR;
 terminal INTEGER_LITERAL , CHARACTER, FLOATING, RATIONAL, TRUE, FALSE;
@@ -75,9 +75,9 @@ nonterminal primitive_type, floating_point_type, numeric_type, integer_type, typ
 nonterminal dictionary_value, dictionary_list, dictionary_structure, comparison, comparison_operators, boolean_operators, custom_type;
 nonterminal boolean_twoway_operators, boolean, comparables_list, string_content, simple_integer_exp, integer_value;
 nonterminal value_simple, list_simple, comparison_parameters;
-nonterminal list, array, value, string, negative, special_statement;
+nonterminal list, array, value, string, negative, special_statement,complex_type, merged_type;
 
-precedence left PLUS, MINUS, AND, OR, IMPLY;
+precedence left PLUS, MINUS, AND, OR, IMPLY, IN;
 precedence left DIV, MULT;
 precedence right POW;
 
@@ -94,27 +94,36 @@ method_body ::= statements | ;
 statements ::= statements statement | statement;
 
 special_statement ::= LOOP method_body POOL
-                  | IF LPAREN comparison_parameters RPAREN THEN method_body  ELSE method_body FI
+                  | IF LPAREN comparison_parameters RPAREN THEN method_body  ELSE statements FI
                   | IF LPAREN comparison_parameters RPAREN THEN method_body FI ;
 
 statement  ::= full_exp SEMICOL | special_statement;
 
 full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
-                | IDENTIFIER COL SEQ LPAREN_TRI type RPAREN_TRI EQUAL array
-                | IDENTIFIER COL DICT LPAREN_TRI INT COMMA type RPAREN_TRI EQUAL dictionary_structure
+                | complex_type EQUAL array
+                | complex_type EQUAL dictionary_structure
                 | IDENTIFIER COL type
                 | IDENTIFIER EQUAL simple_exp
+                | IDENTIFIER EQUAL complex_type
                 | function_call
                 | BREAK INTEGER_LITERAL
                 | PRINT simple_exp
                 | RETURN simple_exp
                 | READ simple_exp
                 | IDENTIFIER simple_exp
+                | ALIAS merged_type merged_type
+                | custom_type
                 | RETURN
                 | BREAK;
 
 parameter_list ::= parameter_list COMMA parameter | parameter;
 parameter ::= IDENTIFIER COL type | ;
+
+complex_type ::= IDENTIFIER COL SEQ LPAREN_TRI type RPAREN_TRI
+               | IDENTIFIER COL DICT LPAREN_TRI INT COMMA type RPAREN_TRI
+               | IDENTIFIER LPAREN_SQ simple_exp RPAREN_SQ;
+
+merged_type ::= type | complex_type;
 
 simple_exp  ::= simple_exp operator_binary simple_exp
             | NOT LPAREN simple_exp RPAREN
@@ -124,7 +133,7 @@ simple_exp  ::= simple_exp operator_binary simple_exp
             ;
 
 
-custom_type ::= TYPE_DECLARATOR IDENTIFIER LPAREN_CURLY parameter_list RPAREN_CURLY SEMICOL;
+custom_type ::= TYPE_DECLARATOR IDENTIFIER LPAREN_CURLY parameter_list RPAREN_CURLY;
 
 dictionary_structure ::= LPAREN_CURLY dictionary_list RPAREN_CURLY ;
 
@@ -168,7 +177,7 @@ comparison_operators ::= COM_EQUAL | COM_NOT_EQUAL | LPAREN_TRI | LESS_THAN_OR_E
 
 boolean_operators ::= boolean_twoway_operators | NOT;
 
-boolean_twoway_operators ::= AND | OR | IMPLY;
+boolean_twoway_operators ::= AND | OR | IMPLY | IN;
 
 type ::= primitive_type | TOP | STRING | IDENTIFIER;
 primitive_type ::= numeric_type | BOOL;

@@ -105,6 +105,7 @@ String = \".*\"
 <YYINITIAL>   "null"  { return symbol(sym.NULL);    }
 <YYINITIAL>   "tdef"  { return symbol(sym.TYPE_DECLARATOR);    }
 <YYINITIAL>   "read"  { return symbol(sym.READ);    }
+<YYINITIAL>   "in"  { return symbol(sym.IN);    }
 
 
 <YYINITIAL> {
