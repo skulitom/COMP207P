@@ -99,28 +99,26 @@ special_statement ::= LOOP method_body POOL
 
 statement  ::= full_exp SEMICOL | special_statement;
 
-full_exp   ::= IDENTIFIER COL merged_type EQUAL simple_exp
-                | complex_type EQUAL array
-                | complex_type EQUAL dictionary_structure
+full_exp   ::= IDENTIFIER COL merged_type EQUAL array
+                | IDENTIFIER COL merged_type EQUAL dictionary_structure
                 | IDENTIFIER COL merged_type
-                | IDENTIFIER EQUAL simple_exp
+                | IDENTIFIER EQUAL list
                 | IDENTIFIER EQUAL complex_type
                 | function_call
                 | BREAK INTEGER_LITERAL
-                | PRINT simple_exp
-                | RETURN simple_exp
-                | READ simple_exp
-                | IDENTIFIER simple_exp
+                | PRINT list
+                | RETURN list
+                | READ list
+                | IDENTIFIER list
                 | ALIAS merged_type merged_type
                 | custom_type
-                | RETURN
                 | BREAK;
 
 parameter_list ::= parameter_list COMMA parameter | parameter;
 parameter ::= IDENTIFIER COL merged_type | complex_type COL merged_type |;
 
-complex_type ::= IDENTIFIER COL SEQ LPAREN_TRI type RPAREN_TRI
-               | IDENTIFIER COL DICT LPAREN_TRI INT COMMA type RPAREN_TRI
+complex_type ::=  DICT LPAREN_TRI INT COMMA type RPAREN_TRI
+               | SEQ LPAREN_TRI type RPAREN_TRI
                | IDENTIFIER LPAREN_SQ simple_exp RPAREN_SQ;
 
 merged_type ::= type | complex_type;
@@ -145,7 +143,7 @@ array ::= LPAREN_SQ list RPAREN_SQ | list;
 
 string ::= STRING_LITERAL;
 
-list ::= list delimitors value | value |;
+list ::= list delimitors simple_exp | simple_exp |;
 
 delimitors ::= COMMA | CONCAT ;
 
