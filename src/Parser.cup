@@ -106,7 +106,6 @@ full_exp   ::= IDENTIFIER COL merged_type EQUAL list
                 | IDENTIFIER COL merged_type EQUAL dictionary_structure
                 | IDENTIFIER COL merged_type
                 | IDENTIFIER EQUAL list
-                | IDENTIFIER EQUAL complex_type
                 | function_call
                 | BREAK INTEGER_LITERAL
                 | PRINT list
@@ -130,6 +129,7 @@ simple_exp  ::= simple_exp operator_binary simple_exp
             | NOT LPAREN simple_exp RPAREN
             | LPAREN simple_exp RPAREN
             | simple_exp negative
+            | complex_type
             | value
             ;
 
