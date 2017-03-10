@@ -145,9 +145,9 @@ dictionary_value ::= value COL value | LPAREN_CURLY RPAREN_CURLY | LPAREN_CURLY 
 
 string ::= STRING_LITERAL;
 
-list ::= list all_binary simple_exp | list all_binary array | list all_binary simple_exp array | simple_exp array| array |simple_exp | ;
+list ::= list all_binary simple_exp | list all_binary array | list all_binary simple_exp array | simple_exp array| array |simple_exp |;
 
-array ::= LPAREN_SQ list RPAREN_SQ ;
+array ::= LPAREN_SQ parameter_list RPAREN_SQ ;
 
 delimitors ::= COMMA | CONCAT ;
 
