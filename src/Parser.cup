@@ -75,7 +75,7 @@ nonterminal primitive_type, floating_point_type, numeric_type, integer_type, typ
 nonterminal dictionary_value, dictionary_list, dictionary_structure, comparison, comparison_operators, boolean_operators, custom_type;
 nonterminal boolean_twoway_operators, boolean, comparables_list, string_content, simple_integer_exp, integer_value;
 nonterminal value_simple, list_simple, comparison_parameters;
-nonterminal list, array, value, string, negative;
+nonterminal list, array, value, string, negative, special_statement;
 
 precedence left PLUS, MINUS, AND, OR, IMPLY;
 precedence left DIV, MULT;
@@ -91,12 +91,13 @@ method_header ::= METHOD_DECLARATOR IDENTIFIER LPAREN parameter_list RPAREN;
 method_body ::= statements | ;
 
 
-statements ::= LOOP method_body POOL
-                | IF LPAREN comparison_parameters RPAREN THEN method_body  ELSE method_body FI
-                | IF LPAREN comparison_parameters RPAREN THEN method_body FI
-                |statements statement | statement;
+statements ::= statements statement | statement;
 
-statement  ::= full_exp SEMICOL;
+special_statement ::= LOOP method_body POOL
+                  | IF LPAREN comparison_parameters RPAREN THEN method_body  ELSE method_body FI
+                  | IF LPAREN comparison_parameters RPAREN THEN method_body FI ;
+
+statement  ::= full_exp SEMICOL | special_statement;
 
 full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
                 | IDENTIFIER COL SEQ LPAREN_TRI type RPAREN_TRI EQUAL array
