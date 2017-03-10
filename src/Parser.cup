@@ -97,8 +97,8 @@ method_body ::= statements | ;
 statements ::= statements statement | statement;
 
 special_statement ::= LOOP method_body POOL
-                  | IF LPAREN simple_exp RPAREN THEN method_body  ELSE statements FI
-                  | IF LPAREN simple_exp RPAREN THEN method_body FI ;
+                  | IF LPAREN list RPAREN THEN method_body  ELSE statements FI
+                  | IF LPAREN list RPAREN THEN method_body FI ;
 
 statement  ::= full_exp SEMICOL | special_statement;
 
@@ -121,7 +121,7 @@ parameter ::= IDENTIFIER COL merged_type | complex_type COL merged_type |;
 
 complex_type ::=  DICT LPAREN_TRI INT COMMA type RPAREN_TRI
                | SEQ LPAREN_TRI type RPAREN_TRI
-               | IDENTIFIER LPAREN_SQ simple_exp RPAREN_SQ;
+               | IDENTIFIER LPAREN_SQ list RPAREN_SQ;
 
 merged_type ::= type | complex_type;
 
@@ -144,7 +144,7 @@ dictionary_value ::= value COL value | LPAREN_CURLY RPAREN_CURLY | LPAREN_CURLY 
 
 string ::= STRING_LITERAL;
 
-list ::= LPAREN_SQ list RPAREN_SQ |list delimitors simple_exp | simple_exp |;
+list ::= list delimitors simple_exp | LPAREN_SQ list RPAREN_SQ |simple_exp | ;
 
 delimitors ::= COMMA | CONCAT ;
 
