@@ -63,7 +63,7 @@ terminal BADCHAR;
 terminal INTEGER_LITERAL , CHARACTER, FLOATING, RATIONAL, TRUE, FALSE;
 terminal IF, FI, ELSE, BREAK, THEN;
 terminal COM_EQUAL, COM_NOT_EQUAL, LESS_THAN, LESS_THAN_OR_EQ;
-terminal LOOP, POOL;
+terminal LOOP, POOL, READ;
 terminal MAIN_FUNC;
 terminal METHOD_DECLARATOR, TYPE_DECLARATOR;
 
@@ -74,7 +74,7 @@ nonterminal parameter_list, parameter, sequence_identifier, delimitors;
 nonterminal primitive_type, floating_point_type, numeric_type, integer_type, type, function_call;
 nonterminal dictionary_value, dictionary_list, dictionary_structure, comparison, comparison_operators, boolean_operators, custom_type;
 nonterminal boolean_twoway_operators, boolean, comparables_list, string_content, simple_integer_exp, integer_value;
-nonterminal value_simple, list_simple;
+nonterminal value_simple, list_simple, comparison_parameters;
 nonterminal list, array, value, string, negative;
 
 precedence left PLUS, MINUS, AND, OR, IMPLY;
@@ -92,8 +92,8 @@ method_body ::= statements | ;
 
 
 statements ::= LOOP method_body POOL
-                | IF LPAREN comparison RPAREN THEN statements FI
-                | IF LPAREN comparison RPAREN THEN statements  ELSE statements FI
+                | IF LPAREN comparison_parameters RPAREN THEN method_body  ELSE method_body FI
+                | IF LPAREN comparison_parameters RPAREN THEN method_body FI
                 |statements statement | statement;
 
 statement  ::= full_exp SEMICOL;
@@ -107,6 +107,8 @@ full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
                 | BREAK INTEGER_LITERAL
                 | PRINT simple_exp
                 | RETURN simple_exp
+                | READ simple_exp
+                | IDENTIFIER simple_exp
                 | RETURN
                 | BREAK;
 
@@ -151,9 +153,11 @@ operator_binary ::= PLUS
             | boolean_twoway_operators
             ;
 
-function_call ::= QUESTION simple_exp QUESTION IDENTIFIER LPAREN comparison RPAREN;
+function_call ::= QUESTION simple_exp QUESTION IDENTIFIER LPAREN comparables_list RPAREN;
 
 comparison ::= simple_exp comparison_operators simple_exp | simple_exp;
+
+comparison_parameters ::= comparison_parameters boolean_twoway_operators comparison | comparison;
 
 negative ::= MINUS INTEGER_LITERAL| MINUS IDENTIFIER;
 
