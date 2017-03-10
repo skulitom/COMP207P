@@ -78,7 +78,7 @@ nonterminal value_simple, list_simple, comparison_parameters;
 nonterminal list, array, value, string, negative, special_statement,complex_type, merged_type;
 nonterminal program, main_method ;
 
-precedence left PLUS, MINUS, AND, OR, IMPLY, IN;
+precedence left PLUS, MINUS, AND, OR, IMPLY, IN, COM_EQUAL , COM_NOT_EQUAL , LPAREN_TRI , LESS_THAN_OR_EQ;
 precedence left DIV, MULT;
 precedence right POW;
 
@@ -97,12 +97,12 @@ method_body ::= statements | ;
 statements ::= statements statement | statement;
 
 special_statement ::= LOOP method_body POOL
-                  | IF LPAREN comparison_parameters RPAREN THEN method_body  ELSE statements FI
-                  | IF LPAREN comparison_parameters RPAREN THEN method_body FI ;
+                  | IF LPAREN simple_exp RPAREN THEN method_body  ELSE statements FI
+                  | IF LPAREN simple_exp RPAREN THEN method_body FI ;
 
 statement  ::= full_exp SEMICOL | special_statement;
 
-full_exp   ::= IDENTIFIER COL merged_type EQUAL array
+full_exp   ::= IDENTIFIER COL merged_type EQUAL list
                 | IDENTIFIER COL merged_type EQUAL dictionary_structure
                 | IDENTIFIER COL merged_type
                 | IDENTIFIER EQUAL list
@@ -142,15 +142,11 @@ dictionary_list ::= dictionary_list COMMA dictionary_value | dictionary_value | 
 
 dictionary_value ::= value COL value | LPAREN_CURLY RPAREN_CURLY | LPAREN_CURLY value COL value RPAREN_CURLY;
 
-array ::= LPAREN_SQ list RPAREN_SQ | list;
-
 string ::= STRING_LITERAL;
 
-list ::= list delimitors simple_exp | simple_exp |;
+list ::= LPAREN_SQ list RPAREN_SQ |list delimitors simple_exp | simple_exp |;
 
 delimitors ::= COMMA | CONCAT ;
-
-comparables_list ::= comparables_list COMMA simple_exp| simple_exp |;
 
 value ::= integer_value | CHARACTER | RATIONAL | FLOATING |NULL | boolean | function_call | string | negative  ;
 
@@ -162,11 +158,10 @@ operator_binary ::= PLUS
             | DIV
             | POW
             | boolean_twoway_operators
+            | comparison_operators
             ;
 
-function_call ::= QUESTION simple_exp QUESTION IDENTIFIER LPAREN comparables_list RPAREN;
-
-comparison ::= simple_exp comparison_operators simple_exp | simple_exp;
+function_call ::= QUESTION simple_exp QUESTION IDENTIFIER LPAREN list RPAREN;
 
 comparison_parameters ::= comparison_parameters boolean_twoway_operators comparison | comparison;
 
