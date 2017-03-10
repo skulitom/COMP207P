@@ -1,13 +1,9 @@
-
 tdef person {name:string, surname:string, age:int}; # person fdefinition
-
-tdef family {mother:person, father:person, children:seq<person>}; # family fdefinition
-
+tdef family {mother:person, father:person, children:seq<person>}; 
+# family fdefinition
 main { 
-
 # here we generate
 /# a family #/
-
   m:person := "aaaaAAA", "bbBB0_i", 40;
   p:person := "aaabAAA", "bbBB0_i", 35;
   c1:person := "aaabAAA", "bbBB0_i", 1;

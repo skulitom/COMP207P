@@ -4,7 +4,7 @@ main {
 	return b;
 };
 
-fdef reverse (inseq : seq<top>) { 
+fdef reverse () { 
 	outseq : seq<top> := [];
 	i : int := 0;
 	loop 

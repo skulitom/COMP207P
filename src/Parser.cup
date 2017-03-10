@@ -84,7 +84,7 @@ precedence right POW;
 
 methods ::= methods method_declaration | method_declaration | statements;
 method_declaration ::= method_header LPAREN_CURLY method_body RPAREN_CURLY SEMICOL
-                        | method_header LPAREN_CURLY method_body RPAREN_CURLY COL type SEMICOL
+                        | method_header LPAREN_CURLY method_body RPAREN_CURLY COL merged_type SEMICOL
                         | MAIN_FUNC LPAREN_CURLY statements RPAREN_CURLY SEMICOL;
 
 method_header ::= METHOD_DECLARATOR IDENTIFIER LPAREN parameter_list RPAREN;
@@ -99,10 +99,10 @@ special_statement ::= LOOP method_body POOL
 
 statement  ::= full_exp SEMICOL | special_statement;
 
-full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
+full_exp   ::= IDENTIFIER COL merged_type EQUAL simple_exp
                 | complex_type EQUAL array
                 | complex_type EQUAL dictionary_structure
-                | IDENTIFIER COL type
+                | IDENTIFIER COL merged_type
                 | IDENTIFIER EQUAL simple_exp
                 | IDENTIFIER EQUAL complex_type
                 | function_call
@@ -117,7 +117,7 @@ full_exp   ::= IDENTIFIER COL type EQUAL simple_exp
                 | BREAK;
 
 parameter_list ::= parameter_list COMMA parameter | parameter;
-parameter ::= IDENTIFIER COL type | ;
+parameter ::= IDENTIFIER COL merged_type | complex_type COL merged_type |;
 
 complex_type ::= IDENTIFIER COL SEQ LPAREN_TRI type RPAREN_TRI
                | IDENTIFIER COL DICT LPAREN_TRI INT COMMA type RPAREN_TRI
