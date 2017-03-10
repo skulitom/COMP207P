@@ -4,14 +4,12 @@ fdef foo( pos : int ) {
 	else 
 		return 1;
 	fi	
-	return ?T?add( ?T?foo( pos-1 ), ?T?foo( pos-2 ) );
+	return ?T?add( x );
 } ;
-
 main {
 	print ?T?foo( 13 );
 	return;
 };
-
 fdef add (x:int, y:int) {
 	return x + y;
 } : int;

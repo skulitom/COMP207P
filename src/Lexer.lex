@@ -151,6 +151,7 @@ String = \".*\"
    "}"         { return symbol(sym.RPAREN_CURLY);     }
    "=>"          { return symbol(sym.IMPLY);      }
    "&&"          { return symbol(sym.AND); }
+   "::"          { return symbol(sym.CONCAT); }
    "||"          { return symbol(sym.OR); }
 }
 
