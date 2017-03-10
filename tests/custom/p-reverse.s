@@ -3,7 +3,6 @@ main {
 	b : seq<int> := ?F?reverse(a);
 	return b;
 };
-
 fdef reverse () { 
 	outseq : seq<top> := [];
 	i : int := 0;

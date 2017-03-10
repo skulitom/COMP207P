@@ -76,9 +76,9 @@ nonterminal dictionary_value, dictionary_list, dictionary_structure, comparison,
 nonterminal boolean_twoway_operators, boolean, comparables_list, string_content, simple_integer_exp, integer_value;
 nonterminal value_simple, list_simple, comparison_parameters;
 nonterminal list, array, value, string, negative, special_statement,complex_type, merged_type;
-nonterminal program, main_method ;
+nonterminal program, main_method, all_binary ;
 
-precedence left PLUS, MINUS, AND, OR, IMPLY, IN, COM_EQUAL , COM_NOT_EQUAL , LPAREN_TRI , LESS_THAN_OR_EQ;
+precedence left PLUS, MINUS, AND, OR, IMPLY, IN, COM_EQUAL , COM_NOT_EQUAL , LPAREN_TRI , LESS_THAN_OR_EQ, COMMA, CONCAT;
 precedence left DIV, MULT;
 precedence right POW;
 
@@ -105,6 +105,7 @@ statement  ::= full_exp SEMICOL | special_statement;
 full_exp   ::= IDENTIFIER COL merged_type EQUAL list
                 | IDENTIFIER COL merged_type EQUAL dictionary_structure
                 | IDENTIFIER COL merged_type
+                | IDENTIFIER DOT merged_type EQUAL list
                 | IDENTIFIER EQUAL list
                 | function_call
                 | BREAK INTEGER_LITERAL
@@ -120,8 +121,7 @@ parameter_list ::= parameter_list COMMA parameter | parameter;
 parameter ::= IDENTIFIER COL merged_type | complex_type COL merged_type |;
 
 complex_type ::=  DICT LPAREN_TRI INT COMMA type RPAREN_TRI
-               | SEQ LPAREN_TRI type RPAREN_TRI
-               | IDENTIFIER LPAREN_SQ list RPAREN_SQ;
+               | SEQ LPAREN_TRI type RPAREN_TRI;
 
 merged_type ::= type | complex_type;
 
@@ -144,13 +144,17 @@ dictionary_value ::= value COL value | LPAREN_CURLY RPAREN_CURLY | LPAREN_CURLY 
 
 string ::= STRING_LITERAL;
 
-list ::= list delimitors simple_exp | LPAREN_SQ list RPAREN_SQ |simple_exp | ;
+list ::= list all_binary simple_exp | list all_binary array | list all_binary simple_exp array | simple_exp array| array |simple_exp | ;
+
+array ::= LPAREN_SQ list RPAREN_SQ ;
 
 delimitors ::= COMMA | CONCAT ;
 
-value ::= integer_value | CHARACTER | RATIONAL | FLOATING |NULL | boolean | function_call | string | negative  ;
+value ::= integer_value | CHARACTER | RATIONAL | FLOATING |NULL | boolean | function_call | string | negative | IDENTIFIER DOT IDENTIFIER  ;
 
 boolean ::= TRUE | FALSE;
+
+all_binary ::= operator_binary | delimitors;
 
 operator_binary ::= PLUS
             | MINUS
@@ -169,7 +173,7 @@ negative ::= MINUS INTEGER_LITERAL| MINUS IDENTIFIER;
 
 integer_value ::= INTEGER_LITERAL | IDENTIFIER DOT LEN | IDENTIFIER ;
 
-comparison_operators ::= COM_EQUAL | COM_NOT_EQUAL | LPAREN_TRI | LESS_THAN_OR_EQ;
+comparison_operators ::= COM_EQUAL | COM_NOT_EQUAL | LPAREN_TRI | LESS_THAN_OR_EQ   ;
 
 boolean_operators ::= boolean_twoway_operators | NOT;
 
